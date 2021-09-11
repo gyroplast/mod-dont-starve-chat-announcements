@@ -2,6 +2,7 @@ unknown,https://static.wikia.nocookie.net/dont-starve-game/images/8/88/Mod_playe
 wagstaff,https://static.wikia.nocookie.net/dont-starve-game/images/5/53/Wagstaff_Portrait.png
 walani,https://static.wikia.nocookie.net/dont-starve-game/images/0/03/Walani_Portrait.png
 walter,https://static.wikia.nocookie.net/dont-starve-game/images/a/ae/Walter_Portrait.png
+wanda,https://static.wikia.nocookie.net/dont-starve-game/images/1/17/Wanda_Portrait.png
 warly,https://static.wikia.nocookie.net/dont-starve-game/images/3/3b/Warly_Portrait.png
 wathgrithr,https://static.wikia.nocookie.net/dont-starve-game/images/8/86/Wigfrid_Portrait.png
 waxwell,https://static.wikia.nocookie.net/dont-starve-game/images/9/9f/Waxwell_Portrait.png

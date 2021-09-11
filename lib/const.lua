@@ -33,6 +33,7 @@ M.CHARACTER_ICON = {
     wagstaff = "https://media.discordapp.net/attachments/879978511203463179/881557043985678406/avatar_wagstaff.png",
     walani = "https://media.discordapp.net/attachments/879978511203463179/881557054827925504/avatar_walani.png",
     walter = "https://media.discordapp.net/attachments/879978511203463179/881557065846382662/avatar_walter.png",
+    wanda = "https://media.discordapp.net/attachments/879978511203463179/886224281640529920/avatar_wanda.png",
     warly = "https://media.discordapp.net/attachments/879978511203463179/881557077582024754/avatar_warly.png",
     wathgrithr = "https://media.discordapp.net/attachments/879978511203463179/881557088176853022/avatar_wathgrithr.png",
     waxwell = "https://media.discordapp.net/attachments/879978511203463179/881557098960408606/avatar_waxwell.png",
