@@ -184,10 +184,64 @@ local function CATest()
   AnnounceDiscord(test_message, (_G.ThePlayer and _G.ThePlayer.prefab or "unknown"))
 end
 
+
+local function health_override(inst)
+  local function decorated_health_DoDelta(f)
+    local function func(...)
+      local args = {...}
+      --[[ store last hit information on health component, iff damage is not caused by oldager_component ]]
+      local inst = args[1]
+      local amount = args[2]
+      local cause = args[4]
+      local afflicter = args[6]
+
+      if inst and cause ~= "oldager_component" then
+        inst.CA_lasthit = { amount = amount, cause = cause, afflicter = afflicter, time = _G.GetTime() }
+        Log:Debug("lasthit info: "..util.table2str(inst.CA_lasthit))
+      end
+      f(...)
+    end
+    return func
+  end
+
+  if inst.components.health then
+    inst.components.health.DoDelta = decorated_health_DoDelta(inst.components.health.DoDelta)
+  end
+end
+
+
 -- attached to all configured monster death events, and player death
 local function death_handler(inst)
-	inst:ListenForEvent("death", function(inst,data)
+	inst:ListenForEvent("death", function(inst, data)
+    --[[ Overwrite death cause and afflicter by who attacked the entity within the last 5 seconds
+         to count as the actual killer. Also take any lasthit cause/afflicter not older than 5 seconds
+         if oldager_component was the death cause, to display the actual _cause_ for aging to death.
+         This is applied to all deaths now, as it is quite nice to see what _really_ killed an entity,
+         but in particular works around Wanda always dying to "passage of time", independent of who or
+         what dealt fatal damage.
+    --]]
+    local lasthit = inst.components and inst.components.health.CA_lasthit or nil
+    local last_attacker = inst.components and inst.components.combat and inst.components.combat.lastattacker or nil
+    local last_attacked_time = inst.components and inst.components.combat and inst.components.combat.lastwasattackedtime or 0
 
+    Log:Debug("death_handler dmg info: "..util.table2str({lasthit=util.table2str(lasthit), last_attacker=last_attacker, last_attacked_time=last_attacked_time, gettime=_G.GetTime()}))
+    if last_attacker and _G.GetTime() < last_attacked_time + 5 then
+      data.afflicter = last_attacker or data.afflicter
+      data.cause = tostring(last_attacker.prefab)
+      Log:Debug(string.format("death_handler setting last attacker afflicter %s, cause %s",
+        tostring(data.afflicter),
+        tostring(data.cause)
+      ))
+    elseif data.cause == "oldager_component" and lasthit and _G.GetTime() < lasthit.time + 5 then
+      data.afflicter = lasthit.afflicter or data.afflicter
+      data.cause = lasthit.afflicter and tostring(lasthit.afflicter.prefab) or (lasthit.cause and lasthit.cause or data.cause)
+      Log:Debug(string.format("death_handler setting last hit afflicter %s, cause %s",
+        tostring(data.afflicter),
+        tostring(data.cause)
+      ))
+    end
+
+    -- code for announcement string yoinked from scripts/player_common_extensions.lua:134
 		inst.deathcause = data ~= nil and data.cause or "unknown"
 		if data == nil or data.afflicter == nil then
 			inst.deathpkname = nil
@@ -284,6 +338,7 @@ local function main()
             table.concat(announceChannelList(selected_announce_channels), ", ")
         )
         AddPlayerPostInit(death_handler)
+        AddPlayerPostInit(health_override)
     end
   end
 
