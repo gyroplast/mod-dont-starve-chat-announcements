@@ -18,6 +18,7 @@ Table of Contents
     - [Graphics](#graphics)
     - [Source Code](#source-code)
   - [Changelog](#changelog)
+    - [Version 1.1.0 (2021-09-11)](#version-110-2021-09-11)
     - [Version 1.0.0 (2021-09-06)](#version-100-2021-09-06)
 
 Installation and Setup
@@ -132,20 +133,20 @@ Roadmap
 This is a list of changes and features that are planned to be implemented,
 in no particular order.
 
-- add new Wanda character image
-- add announcements for spawning and despawning of monsters
-- add announcements for player resurrections
-- support full runtime configuration with server console
-- ability to add custom images
-- more customizable messages
-- add localization support
-- translate messages, docs and mod configuration
-- port to single-player Don't Starve and its DLCs
-- Matrix messaging support
-- find robust alternative to letting Discord "host" the image files
-- simplify installation across shards
-- allow shard name instead of simple Cave/Overworld location
-- other messenger/chat support
+- [X] add new Wanda character image
+- [ ] add announcements for spawning and despawning of monsters
+- [ ] add announcements for player resurrections
+- [ ] support full runtime configuration with server console
+- [ ] ability to add custom images
+- [ ] more customizable messages
+- [ ] add localization support
+- [ ] translate messages, docs and mod configuration
+- [ ] port to single-player Don't Starve and its DLCs
+- [ ] Matrix messaging support
+- [ ] find robust alternative to letting Discord "host" the image files
+- [ ] simplify installation across shards
+- [ ] allow shard name instead of simple Cave/Overworld location
+- [ ] other messenger/chat support
 
 Acknowledgements
 --------------
@@ -175,5 +176,15 @@ Discord webhook handling and setup a notch in terms of error checking.
 Changelog
 ---------
 
+### Version 1.1.0 (2021-09-11)
+  - add Steam Workshop ID to mod description (*Gyroplast*)
+  - use last attacker in 5 secs in player death announcement (*Gyroplast*)
+    
+    Player deaths are credited to most recent attacker within the last 5
+    seconds, even if dying by fire, cold, over-aging, etc.
+    This is particularly useful for Wanda characters, who usually always die
+    to "passage of time", unless such a logic is implemented. Now Wandas can
+    also enjoy public announcements of dying to a cactus.
+  - add Wanda avatar image (*Gyroplast*) 
 ### Version 1.0.0 (2021-09-06)
   - first public release (*Gyroplast*)
