@@ -17,7 +17,7 @@ all_clients_require_mod = false
 server_filter_tags = {"chat announcements"}
 
 description = trim [[
-Version __VERSION__
+Version __VERSION__, Workshop ID 2594707725
 Announce monster and player deaths on a server and/or Discord. Highly configurable.
 
 Setup Discord Webhook once with CASetDiscordURL("<URL>") in remote console on each shard (i. e. all running overworlds and caves), use CATest() to test. 
