@@ -1,5 +1,6 @@
 -- [[ generic utilities ]] --
 local M = {}
+local json = require("json")
 
 -- remove leading and trailing whitespace from a string
 function M.trim(s) return s:gsub("^%s*(.-)%s*$", "%1") end
@@ -18,5 +19,15 @@ function M.FlagIsSet(flag, value) return (value / flag) % 2 >= 1 end
 
 -- return true iff str starts with start, without other preceding characters
 function M.starts_with(str, start) return str:sub(1, #start) == start end
+
+-- pretty-print table only one level deep
+function M.table2str(t)
+    if type(t) ~= "table" then return tostring(t) end
+    local buf = {}
+    for k, v in pairs(t) do
+        buf[k] = type(v) == "table" and tostring(v) or v
+    end
+    return json.encode(buf)
+end
 
 return M
