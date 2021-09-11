@@ -53,13 +53,13 @@ end
 local function SetupMissingDiscord()
   Log:Warn([[Could not load webhook URL for Discord announcements!
     Set the URL with the console command CASetDiscordURL(<URL>).
- 
+
     Make sure the URL is enclosed in double quotes, and ensure you are
     running the command in the "Remote" console instead of "Local".
-    
+
     You will likely switch to Local unknowingly when pasting the URL with Ctrl-V, so be aware.
     Tap the Ctrl key to switch between Remote and Local.
-    
+
     Example:
       CASetDiscordURL("https://discord.com/api/webhooks/734950925428326401/3ni3djnasd")]])
 end
@@ -289,7 +289,7 @@ local function main()
 
   -- @todo: add monster spawn announcement handler
   -- @todo: add monster despawn announcement handler
-    
+
   Log:Info("finished initialization")
 end
 
