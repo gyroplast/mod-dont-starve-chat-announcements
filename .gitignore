@@ -3,6 +3,9 @@
 .idea
 workspace.code-workspace
 
+# deployments / releases
+out/
+
 # Compiled Lua sources
 luac.out
 
