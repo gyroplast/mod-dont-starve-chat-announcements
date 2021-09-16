@@ -1,8 +1,11 @@
 -- useful constants
 local M = {}
 
--- set to true to generate more debugging log output
-M.MOD_DEBUG = false
+-- available log levels in increasing severity
+M.LOGLEVEL = { TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, WARNING = 4, ERR = 5, ERROR = 5 }
+
+-- set to intended loglevel threshold
+M.MOD_LOGLEVEL = M.LOGLEVEL.INFO
 
 -- URI of source and documentation distribution
 M.SRC_URL = modinfo._src_url
@@ -25,6 +28,23 @@ M.ANNOUNCE_MOBS = {
     "shadow_knight", "shadow_bishop", "shadow_rook", "spat", "spiderqueen",
     "stalker_atrium", "stalker_forest", "stalker", "toadstool_dark",
     "toadstool", "walrus", "warg"
+}
+
+M.ANNOUNCE_MOBS_TO_CONFIG_NAME_MAP = {
+    alterguardian_phase1 = "alterguardian",
+    alterguardian_phase2 = "alterguardian",
+    alterguardian_phase3 = "alterguardian",
+    deciduoustree = "treeguard",
+    leif = "treeguard",
+    leif_sparse = "treeguard",
+    koalefant_summer = "koalefant",
+    koalefant_winter = "koalefant",
+    shadow_bishop = "shadowchesspieces",
+    shadow_knight = "shadowchesspieces",
+    shadow_rook = "shadowchesspieces",
+    stalker_atrium = "stalker",
+    stalker_forest = "stalker",
+    toadstool_dark = "toadstool"
 }
 
 -- URLs to small images to use as an avatar in Discord messages

@@ -25,14 +25,20 @@ local INCLUDE_DEATH_LOCATION = GetModConfigData("include_death_location")
 local webhook_url = nil
 local webhook_name = nil
 
+local function getConfigNameForPrefab(prefab)
+  return C.ANNOUNCE_MOBS_TO_CONFIG_NAME_MAP[prefab] or prefab
+end
+
 -- obtain effective announcement flags for a prefab, considering a possible "DEFAULT" setting
 local function getAnnounceChannels(prefab, event)
+  -- map multiple prefab variants to single config name, f. ex. koalefant_summer/_winter to just koalefant
+  local config_name = getConfigNameForPrefab(prefab) or prefab
   -- get individual setting of prefab for event
-  local prefab_setting = GetModConfigData(event.."_"..prefab) or C.AnnounceChannelEnum.DISABLED
+  local prefab_setting = GetModConfigData(tostring(event).."_"..tostring(config_name)) or C.AnnounceChannelEnum.DISABLED
 
   -- if individual setting is DEFAULT, set it to the global event default setting
   if util.FlagIsSet(C.AnnounceChannelEnum.DEFAULT, prefab_setting) then
-    prefab_setting = GetModConfigData("announce_"..event) or C.AnnounceChannelEnum.DISABLED
+    prefab_setting = GetModConfigData("announce_"..tostring(event)) or C.AnnounceChannelEnum.DISABLED
   end
   return prefab_setting
 end
@@ -197,7 +203,7 @@ local function health_override(inst)
 
       if inst and cause ~= "oldager_component" then
         inst.CA_lasthit = { amount = amount, cause = cause, afflicter = afflicter, time = _G.GetTime() }
-        Log:Debug("lasthit info: "..util.table2str(inst.CA_lasthit))
+        Log:Trace("lasthit info: "..util.table2str(inst.CA_lasthit))
       end
       f(...)
     end
@@ -224,18 +230,18 @@ local function death_handler(inst)
     local last_attacker = inst.components and inst.components.combat and inst.components.combat.lastattacker or nil
     local last_attacked_time = inst.components and inst.components.combat and inst.components.combat.lastwasattackedtime or 0
 
-    Log:Debug("death_handler dmg info: "..util.table2str({lasthit=util.table2str(lasthit), last_attacker=last_attacker, last_attacked_time=last_attacked_time, gettime=_G.GetTime()}))
+    Log:Trace("death_handler dmg info: "..util.table2str({lasthit=util.table2str(lasthit), last_attacker=last_attacker, last_attacked_time=last_attacked_time, gettime=_G.GetTime()}))
     if last_attacker and _G.GetTime() < last_attacked_time + 5 then
       data.afflicter = last_attacker or data.afflicter
       data.cause = tostring(last_attacker.prefab)
-      Log:Debug(string.format("death_handler setting last attacker afflicter %s, cause %s",
+      Log:Trace(string.format("death_handler setting last attacker afflicter %s, cause %s",
         tostring(data.afflicter),
         tostring(data.cause)
       ))
     elseif data.cause == "oldager_component" and lasthit and _G.GetTime() < lasthit.time + 5 then
       data.afflicter = lasthit.afflicter or data.afflicter
       data.cause = lasthit.afflicter and tostring(lasthit.afflicter.prefab) or (lasthit.cause and lasthit.cause or data.cause)
-      Log:Debug(string.format("death_handler setting last hit afflicter %s, cause %s",
+      Log:Trace(string.format("death_handler setting last hit afflicter %s, cause %s",
         tostring(data.afflicter),
         tostring(data.cause)
       ))
