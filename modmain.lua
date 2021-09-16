@@ -25,14 +25,20 @@ local INCLUDE_DEATH_LOCATION = GetModConfigData("include_death_location")
 local webhook_url = nil
 local webhook_name = nil
 
+local function getConfigNameForPrefab(prefab)
+  return C.ANNOUNCE_MOBS_TO_CONFIG_NAME_MAP[prefab] or prefab
+end
+
 -- obtain effective announcement flags for a prefab, considering a possible "DEFAULT" setting
 local function getAnnounceChannels(prefab, event)
+  -- map multiple prefab variants to single config name, f. ex. koalefant_summer/_winter to just koalefant
+  local config_name = getConfigNameForPrefab(prefab) or prefab
   -- get individual setting of prefab for event
-  local prefab_setting = GetModConfigData(event.."_"..prefab) or C.AnnounceChannelEnum.DISABLED
+  local prefab_setting = GetModConfigData(tostring(event).."_"..tostring(config_name)) or C.AnnounceChannelEnum.DISABLED
 
   -- if individual setting is DEFAULT, set it to the global event default setting
   if util.FlagIsSet(C.AnnounceChannelEnum.DEFAULT, prefab_setting) then
-    prefab_setting = GetModConfigData("announce_"..event) or C.AnnounceChannelEnum.DISABLED
+    prefab_setting = GetModConfigData("announce_"..tostring(event)) or C.AnnounceChannelEnum.DISABLED
   end
   return prefab_setting
 end
