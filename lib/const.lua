@@ -30,6 +30,23 @@ M.ANNOUNCE_MOBS = {
     "toadstool", "walrus", "warg"
 }
 
+M.ANNOUNCE_MOBS_TO_CONFIG_NAME_MAP = {
+    alterguardian_phase1 = "alterguardian",
+    alterguardian_phase2 = "alterguardian",
+    alterguardian_phase3 = "alterguardian",
+    deciduoustree = "treeguard",
+    leif = "treeguard",
+    leif_sparse = "treeguard",
+    koalefant_summer = "koalefant",
+    koalefant_winter = "koalefant",
+    shadow_bishop = "shadowchesspieces",
+    shadow_knight = "shadowchesspieces",
+    shadow_rook = "shadowchesspieces",
+    stalker_atrium = "stalker",
+    stalker_forest = "stalker",
+    toadstool_dark = "toadstool"
+}
+
 -- URLs to small images to use as an avatar in Discord messages
 M.CHARACTER_ICON = {
     unknown = "https://media.discordapp.net/attachments/879978511203463179/881557033411829760/avatar_unknown.png",
