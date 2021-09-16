@@ -18,6 +18,7 @@ Table of Contents
     - [Graphics](#graphics)
     - [Source Code](#source-code)
   - [Changelog](#changelog)
+    - [Version 1.1.1 (2021-09-16)](#version-111-2021-09-16)
     - [Version 1.1.0 (2021-09-11)](#version-110-2021-09-11)
     - [Version 1.0.0 (2021-09-06)](#version-100-2021-09-06)
 
@@ -176,7 +177,29 @@ Discord webhook handling and setup a notch in terms of error checking.
 Changelog
 ---------
 
+### Version 1.1.1 (2021-09-16)
+  **Bugfixes**
+  - fix missing mob death announcements (*Gyroplast*)
+
+    Several mob deaths were mistakenly not announced at all:
+    - Celestial Champion
+    - all three treeguard variants
+    - Summer and Winter Koalefant
+    - all shadow chesspieces
+    - both stalker variants
+    - Misery Toadstool
+
+    This is now fixed by mapping the lookup for the announcement configuration to the correct prefab names.
+    Thanks go to CampbellSoupBoy for reporting!
+
+    Fixes [#2](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/2).
+  - fix package script to prevent symlink loops
+
+  **Other Changes**
+  - change MOD_DEBUG bool to LOGLEVEL implementation, add TRACE
+  - handle non-string inputs with trim() and starts_with()
 ### Version 1.1.0 (2021-09-11)
+  **New Features**
   - add Steam Workshop ID to mod description (*Gyroplast*)
   - use last attacker in 5 secs in player death announcement (*Gyroplast*)
     
