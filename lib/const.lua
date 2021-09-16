@@ -5,7 +5,7 @@ local M = {}
 M.LOGLEVEL = { TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, WARNING = 4, ERR = 5, ERROR = 5 }
 
 -- set to intended loglevel threshold
-M.MOD_LOGLEVEL = M.LOGLEVEL.TRACE
+M.MOD_LOGLEVEL = M.LOGLEVEL.INFO
 
 -- URI of source and documentation distribution
 M.SRC_URL = modinfo._src_url
