@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 local function trim(s) return s:gsub("^%s*(.-)%s*$", "%1") end
 
 -- custom field for description and in-game constants
@@ -5,7 +6,7 @@ _src_url = "https://github.com/gyroplast/mod-dont-starve-chat-announcements"
 
 name = "Chat Announcements"
 author = "Gyroplast"
-version = "1.1.1"
+version = "1.2.0.4"
 forumthread = "/profile/631156-gyroplast/"
 api_version = 10
 dont_starve_compatible = false
@@ -30,12 +31,13 @@ Sources: __SRC_URL__
 
 -- refer to AnnounceChannelEnum in lib/const.lua for config value meanings
 configuration_options = {
+    -- discord_webhook_url = "https://.../"
     {
-        name = "title_general_defaults",
+        name = "",
         label = "General Defaults",
         hover = "",
-        options = {{description = "", data = false}},
-        default = false
+        options = { {description = "", data = ""} },
+        default = ""
     }, {
         name = "death_player",
         label = "Announce Player Deaths",
@@ -89,11 +91,11 @@ configuration_options = {
         },
         default = "INFO"
     }, {
-        name = "title_death",
+        name = "",
         label = "Death Announcements",
         hover = "",
-        options = {{description = "", data = false}},
-        default = false
+        options = { {description = "", data = ""} },
+        default = ""
     }, {
         name = "death_minotaur",
         label = "Death Ancient Guardian",
