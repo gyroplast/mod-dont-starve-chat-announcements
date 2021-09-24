@@ -1,8 +1,8 @@
 -- available log levels in increasing severity
 local LOGLEVEL = { TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, WARNING = 4, ERR = 5, ERROR = 5 }
 
--- log message format string with mod name, severity/level, and message placeholders
-local LOGMSG_FMT = "Mod: %s [%-5s] %s"
+-- log message format string with mod name and severity/level placeholders
+local LOGMSG_FMT = "Mod: %s [%-5s] "
 local DEFAULT_LOG_LEVEL = LOGLEVEL.INFO
 
 local Logging = Class(function(self, modname)
@@ -32,28 +32,28 @@ end
 -- log formatted TRACE message to stdout
 function Logging:Trace(msg, ...)
   if self.log_level <= LOGLEVEL.TRACE then
-    print(string.format(LOGMSG_FMT, self.modinfoname, "TRACE", msg, ...))
+    print(string.format(LOGMSG_FMT..msg, self.modinfoname, "TRACE", ...))
   end
 end
 
 -- log formatted DEBUG message to stdout
 function Logging:Debug(msg, ...)
   if self.log_level <= LOGLEVEL.DEBUG then
-    print(string.format(LOGMSG_FMT, self.modinfoname, "DEBUG", msg, ...))
+    print(string.format(LOGMSG_FMT..msg, self.modinfoname, "DEBUG", ...))
   end
 end
 
 -- log formatted INFO message to stdout
 function Logging:Info(msg, ...)
   if self.log_level <= LOGLEVEL.INFO then
-    print(string.format(LOGMSG_FMT, self.modinfoname, "INFO", msg, ...))
+    print(string.format(LOGMSG_FMT..msg, self.modinfoname, "INFO", ...))
   end
 end
 
 -- log formatted WARNING message to stdout
 function Logging:Warn(msg, ...)
   if self.log_level <= LOGLEVEL.WARN then
-    print(string.format(LOGMSG_FMT, self.modinfoname, "WARN", msg, ...))
+    print(string.format(LOGMSG_FMT..msg, self.modinfoname, "WARN", ...))
   end
 end
 
