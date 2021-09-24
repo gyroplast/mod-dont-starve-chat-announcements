@@ -1,18 +1,6 @@
 -- useful constants
 local M = {}
 
--- available log levels in increasing severity
-M.LOGLEVEL = { TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, WARNING = 4, ERR = 5, ERROR = 5 }
-
--- set to default loglevel threshold
-M.MOD_LOGLEVEL = M.LOGLEVEL.INFO
-
--- URI of source and documentation distribution
-M.SRC_URL = modinfo._src_url
-
-M.LONG_MODNAME = ModInfoname(modname)
-M.PRETTY_MODNAME = GetModFancyName(modname)
-
 M.AnnounceChannelEnum = {DISABLED = 1, DEFAULT = 2, SERVER = 4, DISCORD = 8}
 
 M.AnnounceEventsEnum = {DEATH = "death", SPAWN = "spawn", VANISH = "despawn"}

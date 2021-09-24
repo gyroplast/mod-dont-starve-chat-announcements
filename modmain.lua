@@ -3,10 +3,6 @@ if not GLOBAL.TheNet:GetIsServer() then
   return
 end
 
--- propagate vars into environment for imports, specifically lib/const.lua
-GLOBAL.modname = modname
-GLOBAL.modinfo = modinfo
-
 -- add mod scripts to package path for require() to work as expected
 GLOBAL.package.path = GLOBAL.package.path..";"..MODROOT.."/?.lua"
 
@@ -14,7 +10,9 @@ local json = require("json")
 
 local C = require("lib.const")
 local util = require("lib.util")
-local Log = require("lib.logging").Logging
+local Logging = require("lib.logging")
+local Log = Logging(GLOBAL.modname)
+
 
 -- convenient aliases and simple helpers
 local _G = GLOBAL
@@ -183,13 +181,12 @@ local function AnnounceDiscord(msg, character)
 end
 
 local function CATest()
-  local test_message = "This is a test message from the "..C.PRETTY_MODNAME.." mod for Don't Starve Together!"
+  local test_message = "This is a test message from the Chat Announcements mod for Don't Starve Together!"
   if _G.TheNet then
     _G.TheNet:Announce(test_message)
   end
   AnnounceDiscord(test_message, (_G.ThePlayer and _G.ThePlayer.prefab or "unknown"))
 end
-
 
 local function health_override(inst)
   local function decorated_health_DoDelta(f)

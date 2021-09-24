@@ -1,62 +1,67 @@
-local C = require("lib.const")
-local M = {}
+-- available log levels in increasing severity
+local LOGLEVEL = { TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, WARNING = 4, ERR = 5, ERROR = 5 }
 
-local Logging = Class()
+-- log message format string with mod name, severity/level, and message placeholders
+local LOGMSG_FMT = "Mod: %s [%-5s] %s"
+local DEFAULT_LOG_LEVEL = LOGLEVEL.INFO
+
+local Logging = Class(function(self, modname)
+	self.log_level = DEFAULT_LOG_LEVEL
+  self.modinfoname = modname and ModInfoname(tostring(modname)) or ""
+
+  -- set loglevel to configuration option choice, keep default setting if invalid.
+  self:SetLogLevel(GetModConfigData("log_level", modname and tostring(modname) or ""))
+end)
 
 function Logging:LogLevelToString(numeric_log_level)
   if type(numeric_log_level) ~= "number" then return nil end
-  for name,number in pairs(C.LOGLEVEL) do
+  for name,number in pairs(LOGLEVEL) do
     if number == numeric_log_level then return name end
   end
 end
 
 function Logging:GetLogLevel()
-  return Logging:LogLevelToString(C.MOD_LOGLEVEL)
+  return Logging:LogLevelToString(self.log_level)
 end
 
 function Logging:SetLogLevel(loglevel)
   loglevel = type(loglevel) == "number" and Logging:LogLevelToString(loglevel) or loglevel
-  C.MOD_LOGLEVEL = type(loglevel) == "string" and C.LOGLEVEL[loglevel] or C.MOD_LOGLEVEL
+  self.log_level = type(loglevel) == "string" and LOGLEVEL[loglevel] or self.log_level
 end
 
--- log formatted TRACE message to stdout, prefixed with verbose modname.
+-- log formatted TRACE message to stdout
 function Logging:Trace(msg, ...)
-  if C.MOD_LOGLEVEL <= C.LOGLEVEL.TRACE then
-    print(string.format("Mod: %s\t[TRACE] "..msg, C.LONG_MODNAME, ...))
+  if self.log_level <= LOGLEVEL.TRACE then
+    print(string.format(LOGMSG_FMT, self.modinfoname, "TRACE", msg, ...))
   end
 end
 
--- log formatted DEBUG message to stdout, prefixed with verbose modname.
+-- log formatted DEBUG message to stdout
 function Logging:Debug(msg, ...)
-  if C.MOD_LOGLEVEL <= C.LOGLEVEL.DEBUG then
-    print(string.format("Mod: %s\t[DEBUG] "..msg, C.LONG_MODNAME, ...))
+  if self.log_level <= LOGLEVEL.DEBUG then
+    print(string.format(LOGMSG_FMT, self.modinfoname, "DEBUG", msg, ...))
   end
 end
 
--- log formatted INFO message to stdout, prefixed with verbose modname.
+-- log formatted INFO message to stdout
 function Logging:Info(msg, ...)
-  if C.MOD_LOGLEVEL <= C.LOGLEVEL.INFO then
-    print(string.format("Mod: %s\t[INFO ] "..msg, C.LONG_MODNAME, ...))
+  if self.log_level <= LOGLEVEL.INFO then
+    print(string.format(LOGMSG_FMT, self.modinfoname, "INFO", msg, ...))
   end
 end
 
--- log formatted WARNING message to stdout, prefixed with verbose modname.
+-- log formatted WARNING message to stdout
 function Logging:Warn(msg, ...)
-  if C.MOD_LOGLEVEL <= C.LOGLEVEL.WARN then
-    print(string.format("Mod: %s\t[WARN ] "..msg, C.LONG_MODNAME, ...))
+  if self.log_level <= LOGLEVEL.WARN then
+    print(string.format(LOGMSG_FMT, self.modinfoname, "WARN", msg, ...))
   end
 end
 
 -- log critical, unrecoverable ERROR and exit mod.
 function Logging:Error(msg, ...)
-  if C.MOD_LOGLEVEL <= C.LOGLEVEL.ERROR then
+  if self.log_level <= LOGLEVEL.ERROR then
     moderror(msg)
   end
 end
 
--- set loglevel to configuration option choice. Uses MOD_LOGLEVEL constant as default.
-Logging:SetLogLevel(GetModConfigData("log_level", _G.modname))
-
--- exports
-M.Logging = Logging
-return M
+return Logging
