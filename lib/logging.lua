@@ -5,9 +5,9 @@ local LOGLEVEL = { TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, WARNING = 4, ERR = 
 local LOGMSG_FMT = "Mod: %s [%-5s] "
 local DEFAULT_LOG_LEVEL = LOGLEVEL.INFO
 
-local Logging = Class(function(self, modname)
+local Logging = Class(function(self)
 	self.log_level = DEFAULT_LOG_LEVEL
-  self.modinfoname = modname and ModInfoname(tostring(modname)) or ""
+  self.modinfoname = ModInfoname(_G.modname)
 
   -- set loglevel to configuration option choice, keep default setting if invalid.
   self:SetLogLevel(GetModConfigData("log_level", modname and tostring(modname) or ""))
@@ -64,4 +64,4 @@ function Logging:Error(msg, ...)
   end
 end
 
-return Logging
+return Logging()

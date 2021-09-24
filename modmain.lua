@@ -5,13 +5,14 @@ end
 
 -- add mod scripts to package path for require() to work as expected
 GLOBAL.package.path = GLOBAL.package.path..";"..MODROOT.."/?.lua"
+-- raise self-awareness of imported modules: lib.logging
+GLOBAL.modname = modname
 
 local json = require("json")
 
 local C = require("lib.const")
 local util = require("lib.util")
-local Log = require("lib.logging")(modname)
-
+local Log = require("lib.logging")
 
 -- convenient aliases and simple helpers
 local _G = GLOBAL
