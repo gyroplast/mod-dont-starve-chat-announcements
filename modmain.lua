@@ -16,6 +16,7 @@ local Log = require("lib.logging")
 
 -- convenient aliases and simple helpers
 local _G = GLOBAL
+local CFG_DISCORD_WEBHOOK_URL = GetModConfigData("discord_webhook_url")
 local CFG_INCLUDE_DAY = GetModConfigData("include_day")
 local CFG_INCLUDE_DEATH_LOCATION = GetModConfigData("include_death_location")
 

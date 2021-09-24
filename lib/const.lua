@@ -5,7 +5,10 @@ M.AnnounceChannelEnum = {DISABLED = 1, DEFAULT = 2, SERVER = 4, DISCORD = 8}
 
 M.AnnounceEventsEnum = {DEATH = "death", SPAWN = "spawn", VANISH = "despawn"}
 
+-- file name to persist Discord webhook URL, all lower-case as per quasi-convention.
 M.DISCORD_WEBHOOK_URL_FILE = "discord_webhook_url.txt"
+-- file name used by "Discord Death Announcements" mod
+M.DISCORD_WEBHOOK_URL_FILE_COMPAT = "Discord_Webhook_URL.txt"
 
 -- prefab IDs of mobs to announce
 M.ANNOUNCE_MOBS = {
