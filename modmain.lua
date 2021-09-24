@@ -10,8 +10,7 @@ local json = require("json")
 
 local C = require("lib.const")
 local util = require("lib.util")
-local Logging = require("lib.logging")
-local Log = Logging(GLOBAL.modname)
+local Log = require("lib.logging")(modname)
 
 
 -- convenient aliases and simple helpers
