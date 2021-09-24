@@ -16,8 +16,8 @@ local Log = Logging(GLOBAL.modname)
 
 -- convenient aliases and simple helpers
 local _G = GLOBAL
-local INCLUDE_DAY = GetModConfigData("include_day")
-local INCLUDE_DEATH_LOCATION = GetModConfigData("include_death_location")
+local CFG_INCLUDE_DAY = GetModConfigData("include_day")
+local CFG_INCLUDE_DEATH_LOCATION = GetModConfigData("include_death_location")
 
 -- pseudo-globals for Discord Webhook URL and given name
 local webhook_url = nil
@@ -266,13 +266,13 @@ local function death_handler(inst)
 		local announcement_string = _G.GetNewDeathAnnouncementString(inst, inst.deathcause, inst.deathpkname, inst.deathbypet)
 
     -- if requested, add location of death to announcement
-    if INCLUDE_DEATH_LOCATION and _G.TheWorld then
+    if CFG_INCLUDE_DEATH_LOCATION and _G.TheWorld then
       local location = _G.TheWorld:HasTag("cave") and "Caves" or "Overworld"
       announcement_string = announcement_string.." Died in the "..location.."."
     end
 
     -- if requested, add cycle counter with decimal remainder of day to announcement
-    if INCLUDE_DAY and _G.TheWorld then
+    if CFG_INCLUDE_DAY and _G.TheWorld then
       local day = util.round(1 + _G.TheWorld.state.cycles + _G.TheWorld.state.time, 2)
       announcement_string = announcement_string.." (Day "..day..")"
     end
