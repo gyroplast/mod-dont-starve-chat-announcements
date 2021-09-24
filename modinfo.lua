@@ -77,7 +77,18 @@ configuration_options = {
         },
         default = true
     }, {
-
+        name = "log_level",
+        label = "Log Level",
+        hover = "Write log messages to file with selected or higher severity. Trace may contain sensitive data and/or be very chatty!",
+        options = {
+            { description = "Trace", data = "TRACE" },
+            { description = "Debug", data = "DEBUG" },
+            { description = "Info", data = "INFO" },
+            { description = "Warning", data = "WARNING" },
+            { description = "Error", data = "ERROR" }
+        },
+        default = "INFO"
+    }, {
         name = "title_death",
         label = "Death Announcements",
         hover = "",
