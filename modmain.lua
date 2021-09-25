@@ -5,7 +5,7 @@ end
 
 -- add mod scripts to package path for require() to work as expected
 GLOBAL.package.path = GLOBAL.package.path..";"..MODROOT.."/?.lua"
--- raise self-awareness of imported modules: lib.logging
+-- raise self-awareness of imported modules
 GLOBAL.modname = modname
 
 local json = require("json")
@@ -13,10 +13,10 @@ local json = require("json")
 local C = require("lib.const")
 local util = require("lib.util")
 local Log = require("lib.logging")
+local DiscordClient = require("client.discord")
 
 -- convenient aliases and simple helpers
 local _G = GLOBAL
-local CFG_DISCORD_WEBHOOK_URL = GetModConfigData("discord_webhook_url")
 local CFG_INCLUDE_DAY = GetModConfigData("include_day")
 local CFG_INCLUDE_DEATH_LOCATION = GetModConfigData("include_death_location")
 
@@ -54,7 +54,7 @@ local function announceChannelList(announce_channels)
   return channelList
 end
 
--- @todo: shove all Discord code into Class and its own "generic chat plugin" module
+---@todo: shove all Discord code into Class and its own "generic chat plugin" module
 local function SetupMissingDiscord()
   Log:Warn([[Could not load webhook URL for Discord announcements!
     Set the URL with the console command CASetDiscordURL(<URL>).
@@ -77,6 +77,7 @@ local function CASetDiscordURL(url)
   local rc = false -- return success status
   local status_err_msg = "unknown error" -- return error message
 
+  Log:Trace("attempting to set Discord Webhook URL: `%s'", url)
   -- URL plausiblity check to prevent sending arbitrary GET requests
 	if not (util.starts_with(url, "https://discordapp.com/api/webhooks/") 
           or util.starts_with(url, "https://discord.com/api/webhooks/")) then
@@ -119,29 +120,59 @@ local function CASetDiscordURL(url)
   return rc, status_err_msg
 end
 
-local function InitDiscord()
+local function CADiscordCheckWebhookURL(url, cb)
+  local err = nil  -- return value
 
-  Log:Info("initializing Discord")
+  Log:Trace("CADiscordCheckWebhookURL(): syntax checking Discord Webhook URL: `%s'", url)
+  -- URL plausiblity check to prevent sending requests to arbitrary servers
+	if not (util.starts_with(url, "https://discordapp.com/api/webhooks/") 
+          or util.starts_with(url, "https://discord.com/api/webhooks/")) then
+    err = "Invalid Discord Webhook URL. URL must start with \"https://discord[app].com/api/webhooks/\"."
+    Log:Trace("CADiscordCheckWebhookURL(): err = %s", err)
+    if cb and type(cb) == "function" then Log:Trace("CADiscordCheckWebhookURL(): callback"); cb(err) end
+    Log:Trace("CADiscordCheckWebhookURL() returning: %s", tostring(err))
+    return err
+	end
 
-  if not _G.TheSim then
-    Log:Debug("TheSimulation is not initialized, cannot get webhook URL from file.")
-    return
-  end
+  -- Test webhook URI for validity, see https://discord.com/developers/docs/resources/webhook#get-webhook-with-token
+  _G.TheSim:QueryServer(url, function(ret, isSuccessful, resultCode)
+      local status, webhook_json = _G.pcall( function() return json.decode(ret) end )
 
-  _G.TheSim:GetPersistentString(C.DISCORD_WEBHOOK_URL_FILE, function(isSuccessful, url)
-    if isSuccessful and CASetDiscordURL(util.trim(url)) then
-      Log:Info("loaded URL for Discord Webhook %s from file %s",
-          (webhook_name and tostring(webhook_name) or "<unknown>"),
-          C.DISCORD_WEBHOOK_URL_FILE
-      )
-    end
-  end)
+      if isSuccessful and string.len(ret) > 1 and resultCode == 200 then
+        -- get name of webhook for reference by parsing the returned JSON
+        if status and webhook_json ~= nil then
+          webhook_name = webhook_json.name and webhook_json.name or "<unknown>"
+        end
+
+        -- save webhook URL to file for automatic restore on next server start
+        webhook_url = url
+        _G.TheSim:SetPersistentString(C.DISCORD_WEBHOOK_URL_FILE, url, false, nil)
+
+        -- report success
+        rc = true
+        status_err_msg = "successfully setup Discord webhook: "..tostring(webhook_name)
+        Log:Info(status_err_msg)
+        CAGetDiscordWebhookName()
+      else
+        -- print error information
+        status_err_msg = string.format("could not setup Discord webhook URL (%s). HTTP %s, error: %s",
+          tostring(url),
+          tostring(resultCode),
+          json.encode(webhook_json or "<none>")
+        )
+        Log:Warn(status_err_msg)
+      end
+    end,
+		"GET"
+  )
+  return rc, status_err_msg
 end
 
+
 local function AnnounceDiscord(msg, character)
-	if not webhook_url then
-    InitDiscord()
-  end
+	--if not webhook_url then
+  --  InitDiscord()
+  --end
 
   if not webhook_url then
 		SetupMissingDiscord()
@@ -212,7 +243,6 @@ local function health_override(inst)
     inst.components.health.DoDelta = decorated_health_DoDelta(inst.components.health.DoDelta)
   end
 end
-
 
 -- attached to all configured monster death events, and player death
 local function death_handler(inst)
@@ -310,8 +340,7 @@ local function main()
 
   -- [[ initialize chat applications ]] --
 
-  -- Discord
-  AddGamePostInit(InitDiscord)
+  AddGamePostInit(DiscordClient:Init())
 
   -- [[ install event handlers ]] --
 
@@ -356,5 +385,6 @@ end
 _G.CATest = CATest  -- send test message on all possible channels
 _G.CAGetDiscordWebhookName = CAGetDiscordWebhookName  -- get name of currently configured Discord Webhook
 _G.CASetDiscordURL = CASetDiscordURL  -- set URL to Discord Webhook to use
+--main()
+AddGamePostInit(DiscordClient:Init())
 
-main()
