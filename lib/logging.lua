@@ -67,4 +67,4 @@ function Logging:Error(msg, ...)
   end
 end
 
-return Logging()
+return Logging

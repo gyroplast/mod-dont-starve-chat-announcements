@@ -1,7 +1,5 @@
--- this mod is strictly server-side only
-if not GLOBAL.TheNet:GetIsServer() then
-  return
-end
+-- server-only mod, exit early on client
+if not GLOBAL.TheNet:GetIsServer() then do return end end
 
 -- add mod scripts to package path for require() to work as expected
 GLOBAL.package.path = GLOBAL.package.path..";"..MODROOT.."/?.lua"
@@ -12,17 +10,22 @@ local json = require("json")
 
 local C = require("lib.const")
 local util = require("lib.util")
-local Log = require("lib.logging")
-local DiscordClient = require("client.discord")
+local Log = require("lib.logging")()
+local DiscordClient = require("client.discord")()
 
 -- convenient aliases and simple helpers
 local _G = GLOBAL
+local TheNet = _G.TheNet
+
+-- configuration options
 local CFG_INCLUDE_DAY = GetModConfigData("include_day")
 local CFG_INCLUDE_DEATH_LOCATION = GetModConfigData("include_death_location")
 
--- pseudo-globals for Discord Webhook URL and given name
-local webhook_url = nil
-local webhook_name = nil
+-- wrapper function to display arbitrary messages, word-wrapped.
+local function print_to_player(msg)
+  if type(msg) == "table" then msg = table.concat(msg, "\n") else msg = tostring(msg) end
+  TheNet:SystemMessage(util.reflow(msg, 88))
+end
 
 local function getConfigNameForPrefab(prefab)
   return C.ANNOUNCE_MOBS_TO_CONFIG_NAME_MAP[prefab] or prefab
@@ -54,173 +57,100 @@ local function announceChannelList(announce_channels)
   return channelList
 end
 
----@todo: shove all Discord code into Class and its own "generic chat plugin" module
-local function SetupMissingDiscord()
-  Log:Warn([[Could not load webhook URL for Discord announcements!
-    Set the URL with the console command CASetDiscordURL(<URL>).
-
-    Make sure the URL is enclosed in double quotes, and ensure you are
-    running the command in the "Remote" console instead of "Local".
-
-    You will likely switch to Local unknowingly when pasting the URL with Ctrl-V, so be aware.
-    Tap the Ctrl key to switch between Remote and Local.
-
-    Example:
-      CASetDiscordURL("https://discord.com/api/webhooks/734950925428326401/3ni3djnasd")]])
-end
-
-local function CAGetDiscordWebhookName()
-	Log:Info("currently active Discord webhook: %s", (webhook_name or "NOT SET"))
-end
-
-local function CASetDiscordURL(url)
-  local rc = false -- return success status
-  local status_err_msg = "unknown error" -- return error message
-
-  Log:Trace("attempting to set Discord Webhook URL: `%s'", url)
-  -- URL plausiblity check to prevent sending arbitrary GET requests
-	if not (util.starts_with(url, "https://discordapp.com/api/webhooks/") 
-          or util.starts_with(url, "https://discord.com/api/webhooks/")) then
-    status_err_msg = "a valid Discord webhook URL starts with \"https://discord[app].com/api/webhooks/\"."
-    Log:Warn(status_err_msg)
-    return rc, status_err_msg
-	end
-
-  -- test webhook URI for correctness, see https://discord.com/developers/docs/resources/webhook#get-webhook-with-token
-  _G.TheSim:QueryServer(url, function(ret, isSuccessful, resultCode)
-      local status, webhook_json = _G.pcall( function() return json.decode(ret) end )
-
-      if isSuccessful and string.len(ret) > 1 and resultCode == 200 then
-        -- get name of webhook for reference by parsing the returned JSON
-        if status and webhook_json ~= nil then
-          webhook_name = webhook_json.name and webhook_json.name or "<unknown>"
-        end
-
-        -- save webhook URL to file for automatic restore on next server start
-        webhook_url = url
-        _G.TheSim:SetPersistentString(C.DISCORD_WEBHOOK_URL_FILE, url, false, nil)
-
-        -- report success
-        rc = true
-        status_err_msg = "successfully setup Discord webhook: "..tostring(webhook_name)
-        Log:Info(status_err_msg)
-        CAGetDiscordWebhookName()
-      else
-        -- print error information
-        status_err_msg = string.format("could not setup Discord webhook URL (%s). HTTP %s, error: %s",
-          tostring(url),
-          tostring(resultCode),
-          json.encode(webhook_json or "<none>")
-        )
-        Log:Warn(status_err_msg)
-      end
-    end,
-		"GET"
-  )
-  return rc, status_err_msg
-end
-
-local function CADiscordCheckWebhookURL(url, cb)
-  local err = nil  -- return value
-
-  Log:Trace("CADiscordCheckWebhookURL(): syntax checking Discord Webhook URL: `%s'", url)
-  -- URL plausiblity check to prevent sending requests to arbitrary servers
-	if not (util.starts_with(url, "https://discordapp.com/api/webhooks/") 
-          or util.starts_with(url, "https://discord.com/api/webhooks/")) then
-    err = "Invalid Discord Webhook URL. URL must start with \"https://discord[app].com/api/webhooks/\"."
-    Log:Trace("CADiscordCheckWebhookURL(): err = %s", err)
-    if cb and type(cb) == "function" then Log:Trace("CADiscordCheckWebhookURL(): callback"); cb(err) end
-    Log:Trace("CADiscordCheckWebhookURL() returning: %s", tostring(err))
-    return err
-	end
-
-  -- Test webhook URI for validity, see https://discord.com/developers/docs/resources/webhook#get-webhook-with-token
-  _G.TheSim:QueryServer(url, function(ret, isSuccessful, resultCode)
-      local status, webhook_json = _G.pcall( function() return json.decode(ret) end )
-
-      if isSuccessful and string.len(ret) > 1 and resultCode == 200 then
-        -- get name of webhook for reference by parsing the returned JSON
-        if status and webhook_json ~= nil then
-          webhook_name = webhook_json.name and webhook_json.name or "<unknown>"
-        end
-
-        -- save webhook URL to file for automatic restore on next server start
-        webhook_url = url
-        _G.TheSim:SetPersistentString(C.DISCORD_WEBHOOK_URL_FILE, url, false, nil)
-
-        -- report success
-        rc = true
-        status_err_msg = "successfully setup Discord webhook: "..tostring(webhook_name)
-        Log:Info(status_err_msg)
-        CAGetDiscordWebhookName()
-      else
-        -- print error information
-        status_err_msg = string.format("could not setup Discord webhook URL (%s). HTTP %s, error: %s",
-          tostring(url),
-          tostring(resultCode),
-          json.encode(webhook_json or "<none>")
-        )
-        Log:Warn(status_err_msg)
-      end
-    end,
-		"GET"
-  )
-  return rc, status_err_msg
-end
-
-
-local function AnnounceDiscord(msg, character)
-	--if not webhook_url then
-  --  InitDiscord()
-  --end
-
-  if not webhook_url then
-		SetupMissingDiscord()
-		return
-	end
-
-	_G.TheSim:QueryServer(webhook_url, function(ret, isSuccessful, resultCode)
-      if isSuccessful and resultCode >= 200 and resultCode <= 299 then
-        Log:Debug("announcing on Discord via webhook %s: %s",
-          (webhook_name and tostring(webhook_name) or "<unknown>"),
-          msg
-        )
-      else
-        -- print error information
-        local status, webhook_json = _G.pcall( function() return json.decode(ret) end )
-
-        local status_err_msg = string.format("could not announce via Discord webhook %s. HTTP %s, error: %s",
-          (webhook_name and tostring(webhook_name) or "<unknown>"),
-          tostring(resultCode),
-          status and json.encode(webhook_json or "<unknown>") or "<unknown>"
-        )
-        Log:Warn(status_err_msg)
-      end
-		end,
-		"POST",
-		json.encode({
-			username = string.gsub(_G.TheNet:GetServerName(),"'","’"),
-			embeds = {
-				{
-					author = {
-						name = string.gsub(msg,"'","’"),
-						icon_url = C.CHARACTER_ICON[character] or C.CHARACTER_ICON.unknown
-					}
-				}
-			}
-		})
-	)
-end
-
 local function CATest()
-  local test_message = "This is a test message from the Chat Announcements mod for Don't Starve Together!"
-  if _G.TheNet then
-    _G.TheNet:Announce(test_message)
+  local msg = ("This is a test message from the %s mod for Don't Starve Together!"):format(_G.GetModFancyName(modname))
+  if TheNet then
+    TheNet:Announce(msg, nil, nil, "mod")
+  else
+    local error = "TheNet not initialized, cannot announce test message on server."
+    Log:Warn("CATest() "..error)
+    print_to_player(error)
   end
-  AnnounceDiscord(test_message, (_G.ThePlayer and _G.ThePlayer.prefab or "unknown"))
+  if DiscordClient.ok and DiscordClient.webhook then
+    msg = msg.." Using Discord Webhook `"..tostring(DiscordClient.webhook.name).."`."
+    DiscordClient:Announce(msg, C.CHARACTER_ICON[(_G.ThePlayer and _G.ThePlayer.prefab or "unknown")])
+  else
+    local error = "DiscordClient not initialized, cannot announce test message on Discord."
+    Log:Warn("CATest() "..error)
+    print_to_player(error)
+  end
 end
 
-local function health_override(inst)
+local function CAHelp()
+  local msg = {
+    "Set a Discord Webhook URL for the current shard with CASetDiscordURL(<URL>).",
+    "Make sure the URL is enclosed in double quotes, and you are running the command in the Remote console instead of Local.",
+    "Tap the Ctrl key to switch between Remote and Local console input.",
+    "Example:",
+    "CASetDiscordURL(\"https://discord.com/api/webhooks/734950925428326401/3ni3djnasd\")"
+  }
+  print_to_player(msg)
+end
+
+local function CAStatus()
+  local msg = {
+    "Current Configuration Status",
+    ("Append Day is %s  --  Append Location is %s"):format(
+      CFG_INCLUDE_DAY and "ENABLED" or "DISABLED",
+      CFG_INCLUDE_DEATH_LOCATION and "ENABLED" or "DISABLED"
+    )
+  }
+
+  if DiscordClient.ok and DiscordClient.webhook then
+    msg[#msg+1] = ("Discord is configured on this shard, using webhook `%s`."):format(
+      tostring(DiscordClient.webhook.name)
+    )
+  else
+    msg[#msg+1] = "Discord is NOT configured on this shard. Run CAHelp() for instructions."
+  end
+
+  print_to_player(msg)
+end
+
+local function CASetDiscordURL(webhook_url)
+  if type(webhook_url) ~= "string" then
+    local msg = "CASetDiscordURL() called without required URL argument."
+    Log:Warn(msg)
+    print_to_player("ERROR "..msg)
+    return
+  end
+
+  webhook_url = util.trim(webhook_url)
+  Log:Trace("CASetDiscordURL() setting Discord Webhook URL: `%s'", webhook_url)
+
+  DiscordClient:SetWebhookURL(webhook_url, function(error)
+    local msg = {}
+    if error then
+      msg = "ERROR "..tostring(error)
+      Log:Warn("CASetDiscordURL() "..msg:gsub("\n","\\n"))
+    else
+      msg = {"SUCCESS setting Discord Webhook URL"}
+      if DiscordClient.ok and DiscordClient.webhook then
+          Log:Trace("CASetDiscordURL() successfully set webhook url: DiscordClient = %s - ok = %s - webhook = %s",
+          tostring(DiscordClient),
+          tostring(DiscordClient.ok),
+          util.table2str(DiscordClient.webhook)
+        )
+        msg[#msg+1] = ("Discord is set up to announce to Webhook `%s` on this shard."):format(DiscordClient.webhook.name)
+
+        if type(msg) == "table" then msg = table.concat(msg, "\n") else msg = tostring(msg) end
+        Log:Info("CASetDiscordURL() "..msg:gsub("\n","\\n"))
+      else
+        msg = "ERROR setting Discord Webhook URL, state is inconsistent. Things might still work, though."
+
+        Log:Warn("CASetDiscordURL() successfully set webhook url, but DiscordClient is not set accordingly: DiscordClient = %s - ok = %s - webhook = %s",
+          tostring(DiscordClient),
+          tostring(DiscordClient.ok),
+          util.table2str(DiscordClient.webhook)
+        )
+      end
+    end
+
+    print_to_player(msg)
+  end)
+end
+
+local function health_override(instance)
   local function decorated_health_DoDelta(f)
     local function func(...)
       local args = {...}
@@ -232,21 +162,21 @@ local function health_override(inst)
 
       if inst and cause ~= "oldager_component" then
         inst.CA_lasthit = { amount = amount, cause = cause, afflicter = afflicter, time = _G.GetTime() }
-        Log:Trace("lasthit info: "..util.table2str(inst.CA_lasthit))
+        Log:Trace("stored last hit info: "..util.table2str(inst.CA_lasthit))
       end
       f(...)
     end
     return func
   end
 
-  if inst.components.health then
-    inst.components.health.DoDelta = decorated_health_DoDelta(inst.components.health.DoDelta)
+  if instance.components.health then
+    instance.components.health.DoDelta = decorated_health_DoDelta(instance.components.health.DoDelta)
   end
 end
 
 -- attached to all configured monster death events, and player death
-local function death_handler(inst)
-	inst:ListenForEvent("death", function(inst, data)
+local function death_handler(instance)
+  instance:ListenForEvent("death", function(inst, data)
     --[[ Overwrite death cause and afflicter by who attacked the entity within the last 5 seconds
          to count as the actual killer. Also take any lasthit cause/afflicter not older than 5 seconds
          if oldager_component was the death cause, to display the actual _cause_ for aging to death.
@@ -276,25 +206,25 @@ local function death_handler(inst)
     end
 
     -- code for announcement string yoinked from scripts/player_common_extensions.lua:134
-		inst.deathcause = data ~= nil and data.cause or "unknown"
-		if data == nil or data.afflicter == nil then
-			inst.deathpkname = nil
-		elseif data.afflicter.overridepkname ~= nil then
-			inst.deathpkname = data.afflicter.overridepkname
-			inst.deathbypet = data.afflicter.overridepkpet
-		else
-			local killer = data.afflicter.components.follower ~= nil and data.afflicter.components.follower:GetLeader() or nil
-			if killer ~= nil and
-				killer.components.petleash ~= nil and
-				killer.components.petleash:IsPet(data.afflicter) then
-				inst.deathbypet = true
-			else
-				killer = data.afflicter
-			end
-			inst.deathpkname = killer:HasTag("player") and killer:GetDisplayName() or nil
-		end
+    inst.deathcause = data ~= nil and data.cause or "unknown"
+    if data == nil or data.afflicter == nil then
+      inst.deathpkname = nil
+    elseif data.afflicter.overridepkname ~= nil then
+      inst.deathpkname = data.afflicter.overridepkname
+      inst.deathbypet = data.afflicter.overridepkpet
+    else
+      local killer = data.afflicter.components.follower ~= nil and data.afflicter.components.follower:GetLeader() or nil
+      if killer ~= nil and
+        killer.components.petleash ~= nil and
+        killer.components.petleash:IsPet(data.afflicter) then
+        inst.deathbypet = true
+      else
+        killer = data.afflicter
+      end
+      inst.deathpkname = killer:HasTag("player") and killer:GetDisplayName() or nil
+    end
 
-		local announcement_string = _G.GetNewDeathAnnouncementString(inst, inst.deathcause, inst.deathpkname, inst.deathbypet)
+    local announcement_string = _G.GetNewDeathAnnouncementString(inst, inst.deathcause, inst.deathpkname, inst.deathbypet)
 
     -- if requested, add location of death to announcement
     if CFG_INCLUDE_DEATH_LOCATION and _G.TheWorld then
@@ -308,7 +238,6 @@ local function death_handler(inst)
       announcement_string = announcement_string.." (Day "..day..")"
     end
 
-
     -- use the "virtual" prefab name "player" if the killed instance was any player character, instead of its specific name like "wes".
     local selected_announce_channels = getAnnounceChannels(inst:HasTag("player") and "player" or inst.prefab, C.AnnounceEventsEnum.DEATH)
 
@@ -318,25 +247,28 @@ local function death_handler(inst)
         inst.prefab,
         announcement_string
       )
-      _G.TheNet:Announce(announcement_string)
+      TheNet:Announce(announcement_string, nil, nil, "death")
     end
 
     if util.FlagIsSet(C.AnnounceChannelEnum.DISCORD, selected_announce_channels) then
-      local icon_name = inst.prefab
+      local icon_name = inst.prefab or "unknown"
       -- special handling of individual icons for shadow_FOO_level1-3 prefabs
       if inst.level then icon_name = inst.prefab.."_level"..inst.level end
-      Log:Info("announcing %s death on Discord (%s): %s",
-        inst.prefab,
-        (webhook_name and tostring(webhook_name) or "<unknown>"),
-        announcement_string
-      )
-      AnnounceDiscord(announcement_string, icon_name)
+      DiscordClient:Announce(announcement_string, C.CHARACTER_ICON[icon_name])
     end
-	end)
+  end)
+end
+
+-- auto settings for debugging and testing
+local function debugsettings(player)
+  player.components.combat.damagemultiplier = 2000
+  _G.c_supergodmode(player)
 end
 
 local function main()
   Log:Info("starting initialization")
+  -- DDD apply player settings for testing, remove before release
+  -- AddPlayerPostInit(debugsettings)
 
   -- [[ initialize chat applications ]] --
 
@@ -377,14 +309,15 @@ local function main()
 
   -- @todo: add monster spawn announcement handler
   -- @todo: add monster despawn announcement handler
+  -- @todo: add player resurrect announcement handler
 
   Log:Info("finished initialization")
 end
 
 -- export callables to console
+_G.CAHelp = CAHelp -- display help message for setup
+_G.CASetDiscordURL = CASetDiscordURL -- set Discord webhook URL on current shard
+_G.CAStatus = CAStatus -- display current configuration and Discord setup status
 _G.CATest = CATest  -- send test message on all possible channels
-_G.CAGetDiscordWebhookName = CAGetDiscordWebhookName  -- get name of currently configured Discord Webhook
-_G.CASetDiscordURL = CASetDiscordURL  -- set URL to Discord Webhook to use
---main()
-AddGamePostInit(DiscordClient:Init())
 
+main()

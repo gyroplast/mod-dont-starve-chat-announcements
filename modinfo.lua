@@ -15,7 +15,7 @@ dst_compatible = true
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
 all_clients_require_mod = false
-server_filter_tags = {"chat announcements"}
+server_filter_tags = {"discord", "chat announcements"}
 
 description = trim [[
 Version __VERSION__, Workshop ID 2594707725
@@ -31,14 +31,19 @@ Sources: __SRC_URL__
 
 -- refer to AnnounceChannelEnum in lib/const.lua for config value meanings
 configuration_options = {
-    -- discord_webhook_url = "https://.../"
-    {
+	{
         name = "",
         label = "General Defaults",
         hover = "",
         options = { {description = "", data = ""} },
         default = ""
     }, {
+		name = "discord_webhook_url",
+		label = "Discord Webhook URL",
+        hover = "The Webhook URL for Discord announcements can only be set in the modoverrides.lua of the server/shard.",
+		options = {	},
+		default = "",
+	}, {
         name = "death_player",
         label = "Announce Player Deaths",
         hover = "Announce player deaths on the selected channels.",
