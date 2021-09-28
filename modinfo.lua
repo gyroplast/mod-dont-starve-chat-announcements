@@ -6,7 +6,7 @@ _src_url = "https://github.com/gyroplast/mod-dont-starve-chat-announcements"
 
 name = "Chat Announcements"
 author = "Gyroplast"
-version = "1.1.1-dev"
+version = "1.2.0-rc1"
 forumthread = "/profile/631156-gyroplast/"
 api_version = 10
 dont_starve_compatible = false
@@ -23,7 +23,7 @@ Announce (boss) monster and player deaths on a server and/or Discord. Highly con
 Player deaths are credited to most recent attacker within the last 5 seconds, even if dying by fire, cold, over-aging, etc.
 No, PvP assists or "most damage dealt" is not implemented. Yet. :)
 
-Setup Discord Webhook once with CASetDiscordURL("<URL>") in remote console on each shard (i. e. all running overworlds and caves), use CATest() to test. 
+Setup Discord Webhook once with CASetDiscordURL("<URL>") in remote console on each shard (i. e. all running overworlds and caves), use CATest() to test, CAStatus() to view current settings. 
 Check your server logfile in case of problems, and refer to the source link below for detailed instructions, bug reports, and further development.
 
 Sources: __SRC_URL__
