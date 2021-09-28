@@ -6,8 +6,8 @@ _src_url = "https://github.com/gyroplast/mod-dont-starve-chat-announcements"
 
 name = "Chat Announcements"
 author = "Gyroplast"
-version = "1.2.0-rc1"
-forumthread = "/profile/631156-gyroplast/"
+version = "1.2.0-rc2"
+forumthread = "/files/file/2076-chat-announcements/"
 api_version = 10
 dont_starve_compatible = false
 reign_of_giants_compatible = false
