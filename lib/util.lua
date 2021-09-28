@@ -7,11 +7,11 @@ function M.trim(s) return (type(s) == "string" and s:gsub("^%s*(.-)%s*$", "%1") 
 
 -- round a number to the nearest decimal places
 function M.round(val, decimal)
-    if (decimal) then
-        return math.floor((val * 10 ^ decimal) + 0.5) / (10 ^ decimal)
-    else
-        return math.floor(val + 0.5)
-    end
+  if (decimal) then
+    return math.floor((val * 10 ^ decimal) + 0.5) / (10 ^ decimal)
+  else
+    return math.floor(val + 0.5)
+  end
 end
 
 -- return true iff a bit flag is set in a value; Lua 5.1 doesn't know bitwise operators.
@@ -22,12 +22,34 @@ function M.starts_with(str, start) return (type(str) == "string" and (str:sub(1,
 
 -- pretty-print table only one level deep
 function M.table2str(t)
-    if type(t) ~= "table" then return tostring(t) end
-    local buf = {}
-    for k, v in pairs(t) do
-        buf[k] = type(v) == "table" and tostring(v) or v
+  if type(t) ~= "table" then return tostring(t) end
+  local buf = {}
+  for k, v in pairs(t) do
+    buf[k] = type(v) == "table" and tostring(v) or v
+  end
+  return json.encode(buf)
+end
+
+-- @see http://lua-users.org/wiki/StringRecipes
+local function wrap(str, limit, indent)
+  indent = indent or ""
+  limit = limit or 72
+  local here = 1-#indent
+  local function check(sp, st, word, fi)
+    if fi - here > limit then
+      here = st - #indent
+      return "\n"..indent..word
     end
-    return json.encode(buf)
+  end
+  return indent..str:gsub("(%s+)()(%S+)()", check)
+end
+
+-- Reflow and word-wrap text.
+-- @see http://lua-users.org/wiki/StringRecipes
+function M.reflow(text, limit, indent)
+  return (text:gsub("[^\n]+", function(line)
+    return wrap(line, limit, indent)
+  end))
 end
 
 return M
