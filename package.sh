@@ -8,7 +8,7 @@ _OUTSTEAM="./out/steam/${_modname// /_}"
 
 rm -fr "${_OUT}" "${_OUTSTEAM}" "${_OUT}.zip"
 
-for f in README.md LICENSE modicon.* modinfo.lua modmain.lua lib/*; do
+for f in README.md LICENSE modicon.* modinfo.lua modmain.lua lib/* client/*; do
   install -Dm755 "$f" "${_OUT}/${f}"
 done
 
