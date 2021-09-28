@@ -328,19 +328,19 @@ Changelog
 
 ### Version 1.2.0 (2021-09-28)
   **Bugfixes**
-  - display correct player icon in CATest() Discord message
+  - display correct player icon in CATest() Discord message (*Gyroplast*)
 
   **New Features**
-  - support for `discord_webhook_url` configuration option
-  - drop-in compatibility with `Discord Death Announcements` mod
-  - console commands print output to in-game chat / broadcast
-  - big logging overhaul, with configurable log level support
+  - support for `discord_webhook_url` configuration option (*Gyroplast*)
+  - drop-in compatibility with `Discord Death Announcements` mod (*Gyroplast*)
+  - console commands print output to in-game chat / broadcast (*Gyroplast*)
+  - big logging overhaul, with configurable log level support (*Gyroplast*)
 
 **Other Changes**
-  - huge refactoring into a separate DiscordClient module
-  - comprehensive server-side logging available with TRACE
-  - new mod icon with border and blue gradient background
-  - code cleanup across the board
+  - huge refactoring into a separate DiscordClient module (*Gyroplast*)
+  - comprehensive server-side logging available with TRACE (*Gyroplast*)
+  - new mod icon with border and blue gradient background (*Gyroplast*)
+  - code cleanup across the board (*Gyroplast*)
 
 ### Version 1.1.1 (2021-09-16)
   **Bugfixes**
@@ -358,11 +358,11 @@ Changelog
     Thanks go to CampbellSoupBoy for reporting!
 
     Fixes [#2](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/2).
-  - fix package script to prevent symlink loops
+  - fix package script to prevent symlink loops (*Gyroplast*)
 
   **Other Changes**
-  - change MOD_DEBUG bool to LOGLEVEL implementation, add TRACE
-  - handle non-string inputs with trim() and starts_with()
+  - change MOD_DEBUG bool to LOGLEVEL implementation, add TRACE (*Gyroplast*)
+  - handle non-string inputs with trim() and starts_with() (*Gyroplast*)
 
 ### Version 1.1.0 (2021-09-11)
   **New Features**
