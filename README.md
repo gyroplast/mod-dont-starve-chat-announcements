@@ -58,7 +58,6 @@ Below is a commented, comprehensive default configuration for this mod that can 
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=2594707725
   ["workshop-2594707725"]={
     configuration_options={
-      [""]="",
       -- Discord Webhook URL to use if no URL was set manually by this mod or
       -- Discord Death Announcements. Delete `discord_webhook_url.txt` and
       -- `Discord_Webhook_URL.txt` file(s) in the `save` subdirectory to
