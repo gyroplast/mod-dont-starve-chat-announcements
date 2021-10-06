@@ -38,11 +38,8 @@ configuration_options = {
     options = { {description = "", data = ""} },
     default = ""
   }, {
+    -- only define the name to load the option from disk, but not show in config screen
     name = "discord_webhook_url",
-    label = "Discord Webhook URL",
-    hover = "The Webhook URL for Discord announcements can only be set in the modoverrides.lua of the server/shard.",
-    options = {	},
-    default = "",
   }, {
     name = "death_player",
     label = "Announce Player Deaths",
