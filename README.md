@@ -332,6 +332,10 @@ Changelog
   - server crash when run with Prefab Counter 1.0.1    
     Fixes [#12](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/12).
 
+  **Other Changes**
+  - remove Discord Webhook URL from mod config screen
+  - unset forumthread in modinfo to go to Workshop page
+
 ### Version 1.2.0 (2021-09-28)
   **Bugfixes**
   - display correct player icon in CATest() Discord message
