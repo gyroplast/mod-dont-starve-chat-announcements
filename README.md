@@ -24,6 +24,7 @@ Table of Contents
     - [Graphics](#graphics)
     - [Source Code](#source-code)
   - [Changelog](#changelog)
+    - [Version 1.2.1 (2021-10-06)](#version-121-2021-10-06)
     - [Version 1.2.0 (2021-09-28)](#version-120-2021-09-28)
     - [Version 1.1.1 (2021-09-16)](#version-111-2021-09-16)
     - [Version 1.1.0 (2021-09-11)](#version-110-2021-09-11)
@@ -57,7 +58,6 @@ Below is a commented, comprehensive default configuration for this mod that can 
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=2594707725
   ["workshop-2594707725"]={
     configuration_options={
-      [""]="",
       -- Discord Webhook URL to use if no URL was set manually by this mod or
       -- Discord Death Announcements. Delete `discord_webhook_url.txt` and
       -- `Discord_Webhook_URL.txt` file(s) in the `save` subdirectory to
@@ -115,7 +115,7 @@ If you prefer to install the mod without using the Steam Workshop, download the 
 .../
     Don't Starve Together Dedicated Server/
         mods/
-            Chat_Announcements-1.2.0/
+            Chat_Announcements-1.2.1/
                 client/
                 lib/
                 LICENSE
@@ -130,18 +130,18 @@ If you prefer to install the mod without using the Steam Workshop, download the 
             modsettings.lua
 ```
 
-Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.0` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
+Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.1` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
 
 To achieve the required consistency, you may now either just rename the mod directory to `workshop-2594707725`, and edit the `modoverrides.lua` files exactly as described in the [Steam Workshop Installation above](#edit-modoverrideslua-in-servershard-directory), 
 
 **OR**
 
-replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.0` in this case, like this:
+replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.1` in this case, like this:
 
 ```lua
   -- Chat Announcements by Gyroplast
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=2594707725
-  ["Chat_Announcements-1.2.0"]={
+  ["Chat_Announcements-1.2.1"]={
     configuration_options={
       [""]="",
       ...
@@ -326,25 +326,34 @@ Discord webhook handling and setup a notch in terms of error checking.
 Changelog
 ---------
 
+### Version 1.2.1 (2021-10-06)
+  **Bugfixes**
+  - server crash when run with Prefab Counter 1.0.1    
+    Fixes [#12](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/12).
+
+  **Other Changes**
+  - remove Discord Webhook URL from mod config screen
+  - unset forumthread in modinfo to go to Workshop page
+
 ### Version 1.2.0 (2021-09-28)
   **Bugfixes**
-  - display correct player icon in CATest() Discord message (*Gyroplast*)
+  - display correct player icon in CATest() Discord message
 
   **New Features**
-  - support for `discord_webhook_url` configuration option (*Gyroplast*)
-  - drop-in compatibility with `Discord Death Announcements` mod (*Gyroplast*)
-  - console commands print output to in-game chat / broadcast (*Gyroplast*)
-  - big logging overhaul, with configurable log level support (*Gyroplast*)
+  - support for `discord_webhook_url` configuration option
+  - drop-in compatibility with `Discord Death Announcements` mod
+  - console commands print output to in-game chat / broadcast
+  - big logging overhaul, with configurable log level support
 
 **Other Changes**
-  - huge refactoring into a separate DiscordClient module (*Gyroplast*)
-  - comprehensive server-side logging available with TRACE (*Gyroplast*)
-  - new mod icon with border and blue gradient background (*Gyroplast*)
-  - code cleanup across the board (*Gyroplast*)
+  - huge refactoring into a separate DiscordClient module
+  - comprehensive server-side logging available with TRACE
+  - new mod icon with border and blue gradient background
+  - code cleanup across the board
 
 ### Version 1.1.1 (2021-09-16)
   **Bugfixes**
-  - fix missing mob death announcements (*Gyroplast*)
+  - fix missing mob death announcements
 
     Several mob deaths were mistakenly not announced at all:
     - Celestial Champion
@@ -358,23 +367,23 @@ Changelog
     Thanks go to CampbellSoupBoy for reporting!
 
     Fixes [#2](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/2).
-  - fix package script to prevent symlink loops (*Gyroplast*)
+  - fix package script to prevent symlink loops
 
   **Other Changes**
-  - change MOD_DEBUG bool to LOGLEVEL implementation, add TRACE (*Gyroplast*)
-  - handle non-string inputs with trim() and starts_with() (*Gyroplast*)
+  - change MOD_DEBUG bool to LOGLEVEL implementation, add TRACE
+  - handle non-string inputs with trim() and starts_with()
 
 ### Version 1.1.0 (2021-09-11)
   **New Features**
-  - add Steam Workshop ID to mod description (*Gyroplast*)
-  - use last attacker in 5 secs in player death announcement (*Gyroplast*)
+  - add Steam Workshop ID to mod description
+  - use last attacker in 5 secs in player death announcement
     
     Player deaths are credited to most recent attacker within the last 5
     seconds, even if dying by fire, cold, over-aging, etc.
     This is particularly useful for Wanda characters, who usually always die
     to "passage of time", unless such a logic is implemented. Now Wandas can
     also enjoy public announcements of dying to a cactus.
-  - add Wanda avatar image (*Gyroplast*) 
+  - add Wanda avatar image 
 
 ### Version 1.0.0 (2021-09-06)
-  - first public release (*Gyroplast*)
+  - first public release

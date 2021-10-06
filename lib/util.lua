@@ -52,4 +52,5 @@ function M.reflow(text, limit, indent)
   end))
 end
 
+util = M
 return M

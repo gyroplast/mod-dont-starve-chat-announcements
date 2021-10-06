@@ -1,6 +1,3 @@
--- bring externally provided globals into local env explicitly
-local modname = _G.modname
-
 -- available log levels in increasing severity
 local LOGLEVEL = { TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, WARNING = 4, ERR = 5, ERROR = 5 }
 
@@ -10,7 +7,7 @@ local DEFAULT_LOG_LEVEL = LOGLEVEL.INFO
 
 local Logging = Class(function(self)
   self.log_level = DEFAULT_LOG_LEVEL
-  self.modinfoname = ModInfoname(modname)
+  self.modinfoname = GLOBAL.ModInfoname(modname)
 
   -- set loglevel to configuration option choice, keep default setting if invalid.
   self:SetLogLevel(GetModConfigData("log_level", modname and tostring(modname) or ""))
@@ -67,4 +64,5 @@ function Logging:Error(msg, ...)
   end
 end
 
+Log = Logging()
 return Logging

@@ -101,4 +101,5 @@ M.CHARACTER_ICON = {
   warg = "https://media.discordapp.net/attachments/879978511203463179/881558989983350794/icon_warg.png"
 }
 
+C = M
 return M
