@@ -1,17 +1,12 @@
 -- server-only mod, exit early on client
 if not GLOBAL.TheNet:GetIsServer() then do return end end
 
--- add mod scripts to package path for require() to work as expected
-GLOBAL.package.path = GLOBAL.package.path..";"..MODROOT.."/?.lua"
--- raise self-awareness of imported modules
-GLOBAL.modname = modname
-
 local json = require("json")
 
-local C = require("lib.const")
-local util = require("lib.util")
-local Log = require("lib.logging")()
-local DiscordClient = require("client.discord")()
+modimport("lib/const")       -- imports "C"
+modimport("lib/util")        -- imports "util"
+modimport("lib/logging")     -- imports "Log"
+modimport("client/discord")  -- imports "DiscordClient"
 
 -- convenient aliases and simple helpers
 local _G = GLOBAL

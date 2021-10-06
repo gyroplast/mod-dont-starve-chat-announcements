@@ -1,5 +1,5 @@
 -- bring externally provided globals into local env explicitly
-local modname = _G.modname
+local _G = GLOBAL
 local TheSim = _G.TheSim
 local TheNet = _G.TheNet
 
@@ -11,15 +11,13 @@ local DISCORD_WEBHOOK_URL_FILE_COMPAT = "Discord_Webhook_URL.txt"
 local CFG_DISCORD_WEBHOOK_URL = GetModConfigData("discord_webhook_url", modname)
 
 local json = require("json")
-local util = require("lib.util")
-local Log = require("lib.logging")()
 
 local DiscordWebhook = Class(function(self, url, name)
   self.url = url and util.trim(url) or ""
   self.name = name and util.trim(name) or ""
 end)
 
-local DiscordClient = Class(function(self)
+DiscordClient = Class(function(self)
   self.webhook = DiscordWebhook()
   self.ok = false  -- true when Discord webhook is initialized
 end)
@@ -353,6 +351,5 @@ function DiscordClient:Announce(msg, icon_url, callback)
   }) or "{}"
 )
 end
-
 
 return DiscordClient

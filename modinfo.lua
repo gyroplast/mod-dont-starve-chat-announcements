@@ -6,7 +6,7 @@ _src_url = "https://github.com/gyroplast/mod-dont-starve-chat-announcements"
 
 name = "Chat Announcements"
 author = "Gyroplast"
-version = "1.2.0"
+version = "1.2.0dev"
 forumthread = "/files/file/2076-chat-announcements/"
 api_version = 10
 dont_starve_compatible = false
