@@ -257,8 +257,10 @@ end
 -- URL plausiblity check to prevent sending arbitrary GET requests
 function DiscordClient:isWebhookURL(url)
   Log:Trace(("DiscordClient:isWebhookURL() called, url:%s = %s"):format(type(url), tostring(url)))
-  return util.starts_with(url, "https://discord.com/api/webhooks/") or
+  return not util.starts_with(url, "https://discord.com/api/webhooks/1234/LEqwufkGXdT") and (  -- do not accept the bogus config example!
+         util.starts_with(url, "https://discord.com/api/webhooks/") or
          util.starts_with(url, "https://discordapp.com/api/webhooks/")
+        )
 end
 
 -- Test webhook URI for validity, see https://discord.com/developers/docs/resources/webhook#get-webhook-with-token
