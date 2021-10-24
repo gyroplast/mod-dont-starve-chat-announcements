@@ -24,6 +24,7 @@ Table of Contents
     - [Graphics](#graphics)
     - [Source Code](#source-code)
   - [Changelog](#changelog)
+    - [Version 1.2.2 (2021-10-24)](#version-122-2021-10-24)
     - [Version 1.2.1 (2021-10-06)](#version-121-2021-10-06)
     - [Version 1.2.0 (2021-09-28)](#version-120-2021-09-28)
     - [Version 1.1.1 (2021-09-16)](#version-111-2021-09-16)
@@ -73,8 +74,8 @@ Below is a commented, comprehensive default configuration for this mod that can 
       -- The values can be added to announce on multiple channels, f. ex.:
       -- If the value is 12, the announcement will be broadcast on the
       -- server (4) AND sent to Discord (8), since 12 = 4 + 8. 
-      announce_death=4, -- where to announce boss monster death, default setting
-      death_player=4,   -- where to announce player death, default setting
+      announce_death=12, -- where to announce boss monster death, default setting
+      death_player=12,   -- where to announce player death, default setting
       include_day=true, -- append in-world day/time/cycle to announcements
       include_death_location=true, -- append location of death to announcements
       log_level="INFO", -- server log level: TRACE, DEBUG, INFO, WARN, ERROR
@@ -104,7 +105,7 @@ Below is a commented, comprehensive default configuration for this mod that can 
       death_warg=2               -- Warg
     },
     enabled=true
-  }
+  },
 ```
 
 ### Mod Installation Without Steam Workshop
@@ -115,7 +116,7 @@ If you prefer to install the mod without using the Steam Workshop, download the 
 .../
     Don't Starve Together Dedicated Server/
         mods/
-            Chat_Announcements-1.2.1/
+            Chat_Announcements-1.2.2/
                 client/
                 lib/
                 LICENSE
@@ -130,18 +131,18 @@ If you prefer to install the mod without using the Steam Workshop, download the 
             modsettings.lua
 ```
 
-Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.1` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
+Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.2` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
 
 To achieve the required consistency, you may now either just rename the mod directory to `workshop-2594707725`, and edit the `modoverrides.lua` files exactly as described in the [Steam Workshop Installation above](#edit-modoverrideslua-in-servershard-directory), 
 
 **OR**
 
-replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.1` in this case, like this:
+replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.2` in this case, like this:
 
 ```lua
   -- Chat Announcements by Gyroplast
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=2594707725
-  ["Chat_Announcements-1.2.1"]={
+  ["Chat_Announcements-1.2.2"]={
     configuration_options={
       [""]="",
       ...
@@ -165,8 +166,7 @@ Either way, you're done. Try it out!
 
 #### Get a Discord Webhook URL
 
-To send any messages to a Discord server's channel, you will have to create a *Webhook* first in Discord. Once setup, you'll copy an URL into your clipboard looking similar to
-https://discord.com/api/webhooks/123456789012345678/ooLaiceili8oht-7oosho4mas3wai9eview_og4ira2ookea0the_1fooVie6cheogh1.
+To send any messages to a Discord server's channel, you will have to create a *Webhook* first in Discord. Once setup, you'll copy an URL into your clipboard looking similar (it'll be considerably longer) to https://discord.com/api/webhooks/1234/LEqwufkGXdT.
 This is what you need.
 
 In a Discord server, you manage a channel's webhooks by clicking the `Edit Channel` cog icon for the Discord channel you want to announce to, select `Integrations`, and then the `Webhooks` option.
@@ -202,7 +202,7 @@ Edit the `modoverrides.lua` for the server and add/set the configuration option 
       -- Discord Death Announcements. Delete `discord_webhook_url.txt` and
       -- `Discord_Webhook_URL.txt` file(s) in the `save` subdirectory to
       -- use this configuration option and re-create the URL file.
-      discord_webhook_url="https://discord.com/api/webhooks/123456789012345678/ooLaiceili8oht-7oosho4mas3wai9eview_og4ira2ookea0the_1fooVie6cheogh1",
+      discord_webhook_url="https://discord.com/api/webhooks/1234/LEqwufkGXdT",
 
       -- Default Settings
       ...
@@ -222,7 +222,7 @@ That is exactly five (5) spaces between ```KLEI``` and ```1```, and one (1) spac
 For example:
 
 ```
-KLEI     1 https://discord.com/api/webhooks/123456789012345678ooLaiceili8oht-7oosho4mas3wai9eview_og4ira2ookea0the_1fooVie6cheogh1
+KLEI     1 https://discord.com/api/webhooks/1234/LEqwufkGXdT
 ```
 
 Place this file in all server shard save directories for which you want announcements to go to that webhook, f. ex. typically:
@@ -253,7 +253,7 @@ CASetDiscordURL("<YOUR WEBHOOK URL>")
 For example:
 
 ```
-CASetDiscordURL("https://discord.com/api/webhooks/123456789012345678ooLaiceili8oht-7oosho4mas3wai9eview_og4ira2ookea0the_1fooVie6cheogh1")
+CASetDiscordURL("https://discord.com/api/webhooks/1234/LEqwufkGXdT")
 ```
 
 Ensure that to the left of the console input field you're reading ```Remote``` instead of ```Local```. Pressing the ```Ctrl``` key will switch between remote and local, and especially when you're using ```Ctrl-V``` to paste the webhook URL, you *will* switch from remote to local inadvertently. 
@@ -326,9 +326,14 @@ Discord webhook handling and setup a notch in terms of error checking.
 Changelog
 ---------
 
+### Version 1.2.2 (2021-10-24)
+  **Bugfixes**
+  - no Discord message sent despite successful CATest()
+    Fixes [#15](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/15).
+
 ### Version 1.2.1 (2021-10-06)
   **Bugfixes**
-  - server crash when run with Prefab Counter 1.0.1    
+  - server crash when run with Prefab Counter 1.0.1
     Fixes [#12](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/12).
 
   **Other Changes**

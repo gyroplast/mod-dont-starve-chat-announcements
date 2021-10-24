@@ -1,0 +1,43 @@
+[h1]Chat Announcements[/h1]
+
+Version 1.2.2, Workshop ID 2594707725
+
+Announce (boss) monster and player deaths on a server and/or Discord. Highly configurable.
+
+[h2]Features and Usage[/h2]
+
+Have boss monster and player deaths announced as a server broadcast, and in a Discord server channel, optionally with a location (Overworld or Caves) and in-game time of death.
+Player deaths are credited to most recent attacker within the last 5 seconds, even if dying by fire, cold, over-aging, etc.
+No, PvP assists or "most damage dealt" is not implemented. Yet. :)
+
+Setup a Discord Webhook once with [i]CASetDiscordURL("<URL>")[/i] in remote console on each shard (i. e. all running overworlds and caves), use [i]CATest()[/i] to test, [i]CAStatus()[/i] to view current settings.
+
+These monster deaths are currently announced, unless disabled in the config:
+[list]
+[*] Ancient Fuelweaver, Atrium/Forest Stalker
+[*] Ancient Guardian
+[*] Antlion
+[*] Bearger
+[*] Bee Queen
+[*] Celestial Champion, all phases
+[*] Crab King
+[*] Deerclops
+[*] Dragonfly
+[*] Ewecus
+[*] Klaus
+[*] Koalefant (Summer/Winter)
+[*] Krampus
+[*] Lord of the Fruit Flies
+[*] MacTusk
+[*] Malbatross
+[*] Moose/Goose
+[*] Shadow Chesspieces (rook, bishop, knight)
+[*] Spider Queen
+[*] Toadstool, Misery Toadstool
+[*] Treeguard variants
+[*] Warg
+[/list]
+
+[h2]Documentation, Sources, Development[/h2]
+
+This mod is developed on [url=https://github.com/gyroplast/mod-dont-starve-chat-announcements]GitHub[/url], where you can read the current [url=https://github.com/gyroplast/mod-dont-starve-chat-announcements/blob/main/README.md]documentation and installation instructions[/url], as well as find the sources. If you encounter any issues, bugs, or have a feature request, please [url=https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/new]create an issue on GitHub[/url], as all development is focused there. You may also find your issue already addressed in an existing issue.
