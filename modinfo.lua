@@ -50,7 +50,7 @@ configuration_options = {
       {description = "Discord Only", data = 8},
       {description = "Discord & Server", data = 4 + 8}
     },
-    default = 4
+    default = 12
   }, {
     name = "announce_death",
     label = "Announce Monster Death",
@@ -61,7 +61,7 @@ configuration_options = {
       {description = "Discord Only", data = 8},
       {description = "Discord & Server", data = 4 + 8}
     },
-    default = 4
+    default = 12
   }, {
     name = "include_day",
     label = "Append Day",
