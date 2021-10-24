@@ -24,6 +24,7 @@ Table of Contents
     - [Graphics](#graphics)
     - [Source Code](#source-code)
   - [Changelog](#changelog)
+    - [Version 1.2.2 (2021-10-24)](#version-122-2021-10-24)
     - [Version 1.2.1 (2021-10-06)](#version-121-2021-10-06)
     - [Version 1.2.0 (2021-09-28)](#version-120-2021-09-28)
     - [Version 1.1.1 (2021-09-16)](#version-111-2021-09-16)
@@ -115,7 +116,7 @@ If you prefer to install the mod without using the Steam Workshop, download the 
 .../
     Don't Starve Together Dedicated Server/
         mods/
-            Chat_Announcements-1.2.1/
+            Chat_Announcements-1.2.2/
                 client/
                 lib/
                 LICENSE
@@ -130,18 +131,18 @@ If you prefer to install the mod without using the Steam Workshop, download the 
             modsettings.lua
 ```
 
-Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.1` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
+Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.2` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
 
 To achieve the required consistency, you may now either just rename the mod directory to `workshop-2594707725`, and edit the `modoverrides.lua` files exactly as described in the [Steam Workshop Installation above](#edit-modoverrideslua-in-servershard-directory), 
 
 **OR**
 
-replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.1` in this case, like this:
+replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.2` in this case, like this:
 
 ```lua
   -- Chat Announcements by Gyroplast
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=2594707725
-  ["Chat_Announcements-1.2.1"]={
+  ["Chat_Announcements-1.2.2"]={
     configuration_options={
       [""]="",
       ...
@@ -325,9 +326,14 @@ Discord webhook handling and setup a notch in terms of error checking.
 Changelog
 ---------
 
+### Version 1.2.2 (2021-10-24)
+  **Bugfixes**
+  - no Discord message sent despite successful CATest()
+    Fixes [#15](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/15).
+
 ### Version 1.2.1 (2021-10-06)
   **Bugfixes**
-  - server crash when run with Prefab Counter 1.0.1    
+  - server crash when run with Prefab Counter 1.0.1
     Fixes [#12](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/12).
 
   **Other Changes**
