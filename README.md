@@ -24,6 +24,7 @@ Table of Contents
     - [Graphics](#graphics)
     - [Source Code](#source-code)
   - [Changelog](#changelog)
+    - [Version 1.2.3 (2021-12-25)](#version-123-2021-12-25)
     - [Version 1.2.2 (2021-10-24)](#version-122-2021-10-24)
     - [Version 1.2.1 (2021-10-06)](#version-121-2021-10-06)
     - [Version 1.2.0 (2021-09-28)](#version-120-2021-09-28)
@@ -326,6 +327,11 @@ Discord webhook handling and setup a notch in terms of error checking.
 
 Changelog
 ---------
+
+### Version 1.2.3 (2021-12-25)
+  **New Features**
+  - Announce death of Eye of Terror and The Twins
+    Closes [#19](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/19).
 
 ### Version 1.2.2 (2021-10-24)
   **Bugfixes**
