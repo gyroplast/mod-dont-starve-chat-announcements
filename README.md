@@ -119,7 +119,7 @@ If you prefer to install the mod without using the Steam Workshop, download the 
 .../
     Don't Starve Together Dedicated Server/
         mods/
-            Chat_Announcements-1.2.2/
+            Chat_Announcements-1.2.3/
                 client/
                 lib/
                 LICENSE
@@ -134,18 +134,18 @@ If you prefer to install the mod without using the Steam Workshop, download the 
             modsettings.lua
 ```
 
-Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.2` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
+Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.3` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
 
 To achieve the required consistency, you may now either just rename the mod directory to `workshop-2594707725`, and edit the `modoverrides.lua` files exactly as described in the [Steam Workshop Installation above](#edit-modoverrideslua-in-servershard-directory), 
 
 **OR**
 
-replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.2` in this case, like this:
+replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.3` in this case, like this:
 
 ```lua
   -- Chat Announcements by Gyroplast
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=2594707725
-  ["Chat_Announcements-1.2.2"]={
+  ["Chat_Announcements-1.2.3"]={
     configuration_options={
       [""]="",
       ...
