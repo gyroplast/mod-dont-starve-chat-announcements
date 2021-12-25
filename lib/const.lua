@@ -9,11 +9,11 @@ M.AnnounceEventsEnum = {DEATH = "death", SPAWN = "spawn", VANISH = "despawn"}
 M.ANNOUNCE_MOBS = {
   "alterguardian_phase1", "alterguardian_phase2", "alterguardian_phase3",
   "antlion", "bearger", "beequeen", "crabking", "deciduoustree", "deerclops",
-  "dragonfly", "klaus", "koalefant_summer", "koalefant_winter", "krampus",
-  "leif", "leif_sparse", "lordfruitfly", "malbatross", "minotaur", "moose",
-  "shadow_knight", "shadow_bishop", "shadow_rook", "spat", "spiderqueen",
-  "stalker_atrium", "stalker_forest", "stalker", "toadstool_dark",
-  "toadstool", "walrus", "warg"
+  "dragonfly", "eyeofterror", "klaus", "koalefant_summer", "koalefant_winter",
+  "krampus", "leif", "leif_sparse", "lordfruitfly", "malbatross", "minotaur",
+  "moose", "shadow_knight", "shadow_bishop", "shadow_rook", "spat",
+  "spiderqueen", "stalker_atrium", "stalker_forest", "stalker", "toadstool_dark",
+  "toadstool", "twinofterror1", "twinofterror2", "walrus", "warg"
 }
 
 M.ANNOUNCE_MOBS_TO_CONFIG_NAME_MAP = {
@@ -71,6 +71,7 @@ M.CHARACTER_ICON = {
   deciduoustree = "https://media.discordapp.net/attachments/879978511203463179/881558978205745232/icon_deciduoustree.png",
   deerclops = "https://media.discordapp.net/attachments/879961726852927500/879970198394896424/icon_deerclops.png",
   dragonfly = "https://media.discordapp.net/attachments/879961726852927500/879970200034869288/icon_dragonfly.png",
+  eyeofterror = "https://media.discordapp.net/attachments/924324620830670918/924324695749300284/icon_eyeofterror.png",
   klaus = "https://media.discordapp.net/attachments/879961726852927500/879970202459177000/icon_klaus.png",
   koalefant_summer = "https://media.discordapp.net/attachments/879961726852927500/879970204187258890/icon_koalefant_summer.png",
   koalefant_winter = "https://media.discordapp.net/attachments/879961726852927500/879970206007570492/icon_koalefant_winter.png",
@@ -97,6 +98,8 @@ M.CHARACTER_ICON = {
   stalker = "https://media.discordapp.net/attachments/879961726852927500/879971597476311080/icon_stalker.png",
   toadstool_dark = "https://media.discordapp.net/attachments/879961726852927500/879971825864572958/icon_toadstool_dark.png",
   toadstool = "https://media.discordapp.net/attachments/879961726852927500/879971827861061672/icon_toadstool.png",
+  twinofterror1 = "https://media.discordapp.net/attachments/924324620830670918/924324695581544489/icon_twinofterror1.png",
+  twinofterror2 = "https://media.discordapp.net/attachments/924324620830670918/924324695342456922/icon_twinofterror2.png",
   walrus = "https://media.discordapp.net/attachments/879961726852927500/879971854171914260/icon_walrus.png",
   warg = "https://media.discordapp.net/attachments/879978511203463179/881558989983350794/icon_warg.png"
 }

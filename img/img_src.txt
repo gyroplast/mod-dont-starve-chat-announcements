@@ -33,6 +33,7 @@ crabking,https://static.wikia.nocookie.net/dont-starve-game/images/9/94/Crab_Kin
 deciduoustree,https://static.wikia.nocookie.net/dont-starve-game/images/5/52/Poison_Birchnut_Tree.png
 deerclops,https://static.wikia.nocookie.net/dont-starve-game/images/8/85/Deerclops.png
 dragonfly,https://static.wikia.nocookie.net/dont-starve-game/images/8/84/Dragonfly.png
+eyeofterror,https://static.wikia.nocookie.net/dont-starve-game/images/b/b2/Eye_of_Terror_Phase_1.png
 klaus,https://static.wikia.nocookie.net/dont-starve-game/images/e/e1/Klaus.png
 koalefant_summer,https://static.wikia.nocookie.net/dont-starve-game/images/3/3c/Koalefant.png
 koalefant_winter,https://static.wikia.nocookie.net/dont-starve-game/images/3/3d/Winter_Koalefant.png
@@ -59,6 +60,8 @@ stalker_atrium,https://static.wikia.nocookie.net/dont-starve-game/images/d/df/An
 stalker_forest,https://static.wikia.nocookie.net/dont-starve-game/images/4/48/Reanimated_Skeleton_Forest.png
 toadstool,https://static.wikia.nocookie.net/dont-starve-game/images/a/a7/Toadstool.png
 toadstool_dark,https://static.wikia.nocookie.net/dont-starve-game/images/2/28/Misery_Toadstool.png
+twinofterror1,https://static.wikia.nocookie.net/dont-starve-game/images/9/94/Retinazor_Phase_1.png
+twinofterror2,https://static.wikia.nocookie.net/dont-starve-game/images/4/42/Spazmatism_Phase_1.png
 walrus,https://static.wikia.nocookie.net/dont-starve-game/images/6/6e/MacTusk.png
 warg,https://static.wikia.nocookie.net/dont-starve-game/images/b/b9/Varg.png
 modicon,https://static.wikia.nocookie.net/dont-starve-game/images/2/21/Grave_Emoticon_Icon.png
