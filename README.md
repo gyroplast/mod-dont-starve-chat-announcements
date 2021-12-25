@@ -88,6 +88,7 @@ Below is a commented, comprehensive default configuration for this mod that can 
       death_crabking=2,          -- Crab King
       death_deerclops=2,         -- Deerclops
       death_dragonfly=2,         -- Dragonfly
+      death_eyeofterror=2,       -- Eye of Terror
       death_klaus=2,             -- Klaus
       death_koalefant=2,         -- Summer/Winter Koalefant
       death_krampus=2,           -- Krampus
@@ -101,6 +102,8 @@ Below is a commented, comprehensive default configuration for this mod that can 
       death_stalker=2,           -- Ancient Fuelweaver, Atrium/Forest Stalker
       death_toadstool=2,         -- Toadstool, Misery Toadstool
       death_treeguard=2,         -- Treeguard variants
+      death_twinofterror1=2,     -- Retinazor (Twin of Terror)
+      death_twinofterror2=2,     -- Spazmatism (Twin of Terror)
       death_walrus=2,            -- MacTusk
       death_warg=2               -- Warg
     },

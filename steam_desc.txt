@@ -24,6 +24,7 @@ These monster deaths are currently announced, unless disabled in the config:
 [*] Deerclops
 [*] Dragonfly
 [*] Ewecus
+[*] Eye of Terror
 [*] Klaus
 [*] Koalefant (Summer/Winter)
 [*] Krampus
@@ -31,7 +32,9 @@ These monster deaths are currently announced, unless disabled in the config:
 [*] MacTusk
 [*] Malbatross
 [*] Moose/Goose
+[*] Retinazor (Twin of Terror)
 [*] Shadow Chesspieces (rook, bishop, knight)
+[*] Spazmatism (Twin of Terror)
 [*] Spider Queen
 [*] Toadstool, Misery Toadstool
 [*] Treeguard variants
