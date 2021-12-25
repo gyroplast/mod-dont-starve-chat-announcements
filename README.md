@@ -280,7 +280,6 @@ Roadmap
 This is a list of changes and features that are planned to be implemented,
 in no particular order.
 
-- [X] add new Wanda character image
 - [ ] add announcements for spawning and despawning of monsters
 - [ ] add announcements for player resurrections
 - [ ] support full runtime configuration with server console
@@ -291,7 +290,6 @@ in no particular order.
 - [ ] port to single-player Don't Starve and its DLCs
 - [ ] Matrix messaging support
 - [ ] find robust alternative to letting Discord "host" the image files
-- [X] simplify installation across shards
 - [ ] allow shard name instead of simple Cave/Overworld location
 - [ ] other messenger/chat support
 - [ ] comprehensive unit tests
