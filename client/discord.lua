@@ -321,8 +321,9 @@ function DiscordClient:Announce(msg, icon_url, callback)
 
   TheSim:QueryServer(self.webhook.url, function(ret, isSuccessful, resultCode)
     if isSuccessful and resultCode >= 200 and resultCode <= 299 then
-      Log:Info("announcing on Discord via webhook %s: %s",
+      Log:Info("announcing on Discord via webhook %s using icon (%s): %s",
         (self.webhook.name and tostring(self.webhook.name) or "<unknown>"),
+        icon_url and tostring(icon_url) or "",
         msg
       )
       if type(callback) == "function" then callback(nil) end
