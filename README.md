@@ -24,6 +24,7 @@ Table of Contents
     - [Graphics](#graphics)
     - [Source Code](#source-code)
   - [Changelog](#changelog)
+    - [Version 1.2.3 (2021-12-25)](#version-123-2021-12-25)
     - [Version 1.2.2 (2021-10-24)](#version-122-2021-10-24)
     - [Version 1.2.1 (2021-10-06)](#version-121-2021-10-06)
     - [Version 1.2.0 (2021-09-28)](#version-120-2021-09-28)
@@ -88,6 +89,7 @@ Below is a commented, comprehensive default configuration for this mod that can 
       death_crabking=2,          -- Crab King
       death_deerclops=2,         -- Deerclops
       death_dragonfly=2,         -- Dragonfly
+      death_eyeofterror=2,       -- Eye of Terror
       death_klaus=2,             -- Klaus
       death_koalefant=2,         -- Summer/Winter Koalefant
       death_krampus=2,           -- Krampus
@@ -101,6 +103,8 @@ Below is a commented, comprehensive default configuration for this mod that can 
       death_stalker=2,           -- Ancient Fuelweaver, Atrium/Forest Stalker
       death_toadstool=2,         -- Toadstool, Misery Toadstool
       death_treeguard=2,         -- Treeguard variants
+      death_twinofterror1=2,     -- Retinazor (Twin of Terror)
+      death_twinofterror2=2,     -- Spazmatism (Twin of Terror)
       death_walrus=2,            -- MacTusk
       death_warg=2               -- Warg
     },
@@ -116,7 +120,7 @@ If you prefer to install the mod without using the Steam Workshop, download the 
 .../
     Don't Starve Together Dedicated Server/
         mods/
-            Chat_Announcements-1.2.2/
+            Chat_Announcements-1.2.3/
                 client/
                 lib/
                 LICENSE
@@ -131,18 +135,18 @@ If you prefer to install the mod without using the Steam Workshop, download the 
             modsettings.lua
 ```
 
-Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.2` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
+Take note of the *exact* name of the mod directory, `Chat_Announcements-1.2.3` in this example. The mod configuration must refer to this exact, case-sensitive directory name. The actual directory name is not important, but it must be consistent with the `modoverrides.lua` entry for the mod, otherwise the server will not be able to associate the configuration with the mod, and the mod will stay disabled entirely.
 
 To achieve the required consistency, you may now either just rename the mod directory to `workshop-2594707725`, and edit the `modoverrides.lua` files exactly as described in the [Steam Workshop Installation above](#edit-modoverrideslua-in-servershard-directory), 
 
 **OR**
 
-replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.2` in this case, like this:
+replace the `workshop-2594707725` reference in the `modoverrides.lua` file with the exact, case-sensitive name of the mod, i. e. `Chat_Announcements-1.2.3` in this case, like this:
 
 ```lua
   -- Chat Announcements by Gyroplast
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=2594707725
-  ["Chat_Announcements-1.2.2"]={
+  ["Chat_Announcements-1.2.3"]={
     configuration_options={
       [""]="",
       ...
@@ -280,7 +284,6 @@ Roadmap
 This is a list of changes and features that are planned to be implemented,
 in no particular order.
 
-- [X] add new Wanda character image
 - [ ] add announcements for spawning and despawning of monsters
 - [ ] add announcements for player resurrections
 - [ ] support full runtime configuration with server console
@@ -291,7 +294,6 @@ in no particular order.
 - [ ] port to single-player Don't Starve and its DLCs
 - [ ] Matrix messaging support
 - [ ] find robust alternative to letting Discord "host" the image files
-- [X] simplify installation across shards
 - [ ] allow shard name instead of simple Cave/Overworld location
 - [ ] other messenger/chat support
 - [ ] comprehensive unit tests
@@ -325,6 +327,11 @@ Discord webhook handling and setup a notch in terms of error checking.
 
 Changelog
 ---------
+
+### Version 1.2.3 (2021-12-25)
+  **New Features**
+  - Announce death of Eye of Terror and The Twins
+    Closes [#19](https://github.com/gyroplast/mod-dont-starve-chat-announcements/issues/19).
 
 ### Version 1.2.2 (2021-10-24)
   **Bugfixes**

@@ -6,7 +6,7 @@ _src_url = "https://github.com/gyroplast/mod-dont-starve-chat-announcements"
 
 name = "Chat Announcements"
 author = "Gyroplast"
-version = "1.2.2"
+version = "1.2.3"
 forumthread = ""
 api_version = 10
 dont_starve_compatible = false
@@ -207,6 +207,18 @@ configuration_options = {
     },
     default = 2
   }, {
+    name = "death_eyeofterror",
+    label = "Death Eye of Terror",
+    hover = "Announce death of Eye of Terror",
+    options = {
+      {description = "Disabled", data = 1},
+      {description = "Default", data = 2},
+      {description = "Server Only", data = 4},
+      {description = "Discord Only", data = 8},
+      {description = "Discord & Server", data = 4 + 8}
+    },
+    default = 2
+  }, {
     name = "death_klaus",
     label = "Death Klaus",
     hover = "Announce death of Klaus.",
@@ -246,6 +258,30 @@ configuration_options = {
     name = "death_lordfruitfly",
     label = "Death Lord Fruit Fly",
     hover = "Announce death of the Lord of the Fruit Flies.",
+    options = {
+      {description = "Disabled", data = 1},
+      {description = "Default", data = 2},
+      {description = "Server Only", data = 4},
+      {description = "Discord Only", data = 8},
+      {description = "Discord & Server", data = 4 + 8}
+    },
+    default = 2
+  }, {
+    name = "death_twinofterror1",
+    label = "Death Retinazor",
+    hover = "Announce death of Retinazor",
+    options = {
+      {description = "Disabled", data = 1},
+      {description = "Default", data = 2},
+      {description = "Server Only", data = 4},
+      {description = "Discord Only", data = 8},
+      {description = "Discord & Server", data = 4 + 8}
+    },
+    default = 2
+  }, {
+    name = "death_twinofterror2",
+    label = "Death Spazmatism",
+    hover = "Announce death of Spazmatism",
     options = {
       {description = "Disabled", data = 1},
       {description = "Default", data = 2},
